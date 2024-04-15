@@ -1,0 +1,55 @@
+import React from 'react';
+
+const Home: React.FC = () => {
+  return (
+    <div className="container flex flex-col mx-auto bg-white">
+      <div className="relative flex flex-wrap items-center justify-between w-full bg-white group py-7 shrink-0">
+        <div>
+          <img className="h-16" src="https://dti.itb.ac.id/wp-content/uploads/2020/09/logo_itb_1024.png" alt="Logo" />
+        </div>
+        <div className="items-center hidden gap-8 md:flex">
+          <button className="flex items-center text-sm font-normal text-gray-800 hover:text-gray-900 transition duration-300"><a href="/login">Masuk</a></button>
+          <button className="flex items-center px-4 py-2 text-sm font-bold rounded-xl bg-purple-blue-100 text-purple-blue-600 hover:bg-purple-blue-600 hover:text-white transition duration-300">
+          <a href="/register">Daftar</a>
+          </button>
+        </div>
+        <button onClick={() => { document.querySelector('.group')?.classList.toggle('open') }} className="flex md:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 8H21C21.2652 8 21.5196 7.89464 21.7071 7.70711C21.8946 7.51957 22 7.26522 22 7C22 6.73478 21.8946 6.48043 21.7071 6.29289C21.5196 6.10536 21.2652 6 21 6H3C2.73478 6 2.48043 6.10536 2.29289 6.29289C2.10536 6.48043 2 6.73478 2 7C2 7.26522 2.10536 7.51957 2.29289 7.70711C2.48043 7.89464 2.73478 8 3 8ZM21 16H3C2.73478 16 2.48043 16.1054 2.29289 16.2929C2.10536 16.4804 2 16.7348 2 17C2 17.2652 2.10536 17.5196 2.29289 17.7071C2.48043 17.8946 2.73478 18 3 18H21C21.2652 18 21.5196 17.8946 21.7071 17.7071C21.8946 17.5196 22 17.2652 22 17C22 16.7348 21.8946 16.4804 21.7071 16.2929C21.5196 16.1054 21.2652 16 21 16ZM21 11H3C2.73478 11 2.48043 11.1054 2.29289 11.2929C2.10536 11.4804 2 11.7348 2 12C2 12.2652 2.10536 12.5196 2.29289 12.7071C2.48043 12.8946 2.73478 13 3 13H21C21.2652 13 21.5196 12.8946 21.7071 12.7071C21.8946 12.5196 22 12.2652 22 12C22 11.7348 21.8946 11.4804 21.7071 11.2929C21.5196 11.1054 21.2652 11 21 11Z" fill="black"></path>
+          </svg>
+        </button>
+        <div className="absolute flex md:hidden transition-all duration-300 ease-in-out flex-col items-start shadow-main justify-center w-full gap-3 overflow-hidden bg-white max-h-0 group-[.open]:py-4 px-4 rounded-2xl group-[.open]:max-h-64 top-full">
+          <button className="flex items-center text-sm font-normal text-black"><a href="/login">Masuk</a></button>
+          <button className="flex items-center px-4 py-2 text-sm font-bold rounded-xl bg-purple-blue-100 text-purple-blue-600 hover:bg-purple-blue-600 hover:text-white transition duration-300"><a href="/register">Daftar</a></button>
+        </div>
+      </div>
+      <div className="grid w-full grid-cols-1 my-auto mt-0 mb-8 md:grid-cols-2 xl:gap-14 md:gap-5">
+        <div className="flex flex-col justify-center col-span-1 text-center lg:text-start">
+          <div className="flex items-center justify-center mb-4 lg:justify-normal">
+            <img className="h-5" src="https://dti.itb.ac.id/wp-content/uploads/2020/09/logo_itb_1024.png" alt="logo" />
+            <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Nama product</h4>
+          </div>
+          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900">Deskripsi singkat</h1>
+          <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-900">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam earum necessitatibus soluta id ducimus beatae, quidem ipsam, aliquid voluptates, incidunt quia? Possimus repudiandae laborum incidunt eius consectetur? Debitis, consectetur in!
+          </p>
+          <div className="items-center">
+            <a href="/login"><button className="items-center py-4 text-sm font-bold text-gray-100 px-7 bg-indigo-500  hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 rounded-xl"><a href="/login">Masuk</a></button></a>
+          </div>
+        </div>
+        <div className="items-center justify-end hidden col-span-1 md:flex">
+          <img className="w-4/5 rounded-md" src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/header-1.png" alt="header image" />
+        </div>
+      </div>
+      <div className="flex flex-wrap -mx-3 my-5">
+        <div className="w-full max-w-full sm:w-3/4 mx-auto text-center">
+          <p className="text-sm text-slate-500 py-1">
+            Made by <a href="https://www.itb.ac.id/" className="text-slate-700 hover:text-slate-900" target="_blank" rel="noopener noreferrer">ITB</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
