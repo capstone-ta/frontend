@@ -3,6 +3,7 @@ import Navbar from "../../components/navbar"
 import Graph from "../../components/graph"
 import GraphChart2 from "../../components/graph_chart2"
 import GraphNivo from "../../components/graph_nivo"
+import Footer from "../../components/footer"
 
 const Dashboard = () => {
     return (
@@ -15,11 +16,9 @@ const Dashboard = () => {
                     <GraphNivo />
                     <GraphChart2 />
                     <Graph />
-                    <p className="text-center text-sm text-gray-500 my-10">
-                        Made by <a href="https://www.itb.ac.id/" className="text-slate-700 hover:text-slate-900" target="_blank" rel="noopener noreferrer">ITB</a>.
-                    </p>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }
