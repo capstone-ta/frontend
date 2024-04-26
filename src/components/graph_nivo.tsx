@@ -118,7 +118,6 @@ const dataArray1 = dataString.split("\n").map(item => {
     return { "x": parseFloat(x), "y": parseFloat(y) - 20 };
 });
 
-console.log(dataArray);
 
 const data = [
     {

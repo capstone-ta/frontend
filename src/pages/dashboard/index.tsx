@@ -4,8 +4,33 @@ import Graph from "../../components/graph"
 import GraphChart2 from "../../components/graph_chart2"
 import GraphNivo from "../../components/graph_nivo"
 import Footer from "../../components/footer"
+import { useEffect } from "react"
+import { useContext } from "react"
+import { RoleContext } from "../../role_provider"
+import { useNavigate } from 'react-router-dom';
+import JWTProvider from "../../jwt_provider"
 
 const Dashboard = () => {
+    const { role, setRole } = useContext(RoleContext);
+    const navigate = useNavigate();
+    const jwtProvider = JWTProvider()
+
+    useEffect(() => {
+        
+        if (jwtProvider.getJwt() === null) {
+          navigate('/login');
+        }
+        if (role === null) {
+            jwtProvider.getRole().then((res) => {
+                if (res != null) {
+                    setRole(res!);
+                } else {
+                    navigate('/login');
+                }
+            })
+        }
+      }, [jwtProvider.jwt]);
+ 
     return (
         <div>
             <Navbar />

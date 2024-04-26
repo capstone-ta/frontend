@@ -131,7 +131,6 @@ const dataArray2 = dataString.split("\n").map(item => {
     return { x: parseFloat(x), y: (parseFloat(y) - 20) };
 });
 
-console.log(dataArray2)
 
 
 const Graph: React.FC = () => {
@@ -144,8 +143,6 @@ const Graph: React.FC = () => {
         setData(dataArray);
         setData2(dataArray2)
       } catch (error) {
-        console.log("BIPPP")
-        console.log('Error fetching data:', error);
       }
     };
 

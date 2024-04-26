@@ -1,12 +1,54 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
+import { API_URL } from '../constant';
+import { useNavigate } from 'react-router-dom';
+import ToastWarning from '../components/toast/warning';
+import ToastSuccess from '../components/toast/success';
+import React, { useState, useContext } from 'react';
+import {RoleContext} from '../role_provider';
+import JWTProvider from '../jwt_provider';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [messageToastWarning, setMessageToastWarning] = useState("");
+  const [messageToastSuccess, setMessageToastSuccess] = useState("");
+  const { role, setRole } = useContext(RoleContext);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // Lakukan proses login di sini
+
+  const navigate = useNavigate();
+  const jwtProvider = JWTProvider()
+
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await fetch(API_URL + "auth/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+  
+      if (response.ok) {
+        const responseJson = await response.json()
+        setMessageToastSuccess("Login Sukses");
+        jwtProvider.setJwt(responseJson.access_token)
+        jwtProvider.setUUID(responseJson.id)
+        setRole(responseJson.role)
+        setTimeout(() => {
+          setMessageToastSuccess("");
+          navigate('/dashboard');
+        }, 2000);
+      } else {
+        setMessageToastWarning("Login Gagal");
+        setTimeout(() => {
+          setMessageToastWarning("");
+        }, 2000);
+      }
+    } catch (error) {
+      setMessageToastWarning("Login Gagal");
+        setTimeout(() => {
+          setMessageToastWarning("");
+        }, 2000);
+    }
   };
 
   return (
@@ -20,8 +62,8 @@ const Login = () => {
             <h1 className="text-2xl xl:text-3xl font-extrabold">Masuk</h1>
             <div className="w-full flex-1 mt-4">
               <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xs">
-                <input {...register('phone_number')} className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="text" placeholder="No. HP" />
-                {errors.phone_number && <p className="text-red-500 text-xs mt-1">No. HP wajib diisi</p>}
+                <input {...register('email')} className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="text" placeholder="Email" />
+                {errors.email && <p className="text-red-500 text-xs mt-1">Email wajib diisi</p>}
                 <input {...register('password')} className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="password" placeholder="Password" />
                 {errors.password && <p className="text-red-500 text-xs mt-1">Password wajib diisi</p>}
                 <button type="submit" className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
@@ -46,6 +88,8 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {messageToastWarning != "" && <ToastWarning message={messageToastWarning} />}
+      {messageToastSuccess != "" && <ToastSuccess message={messageToastSuccess} />}
     </div>
   );
 };

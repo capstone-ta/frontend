@@ -7,6 +7,7 @@ import Pengujian from './pages/dashboard/pengujian';
 import Konfigurasi from './pages/dashboard/konfigurasi';
 import Pengguna from './pages/dashboard/pengguna';
 import History from './pages/dashboard/history';
+import Measurements from './pages/dashboard/measurement';
 import './index.css'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/dashboard/konfigurasi" element={ <Konfigurasi/> } />
           <Route path="/dashboard/user" element={ <Pengguna/> } />
           <Route path="/dashboard/history" element={ <History/> } />
+          <Route path="/dashboard/history/:id" element={ <Measurements/> } />
         </Routes>
       </BrowserRouter>
     </div>

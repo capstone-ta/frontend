@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
+import { API_URL } from '../../constant';
 
-const FileUploadComponent: React.FC = () => {
+interface FileData {
+  file: File;
+  measurementOption: string;
+  name: string;
+  description: string;
+}
+
+const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
   const [file, setFile] = useState<File | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [measurementOption, setMeasurementOption] = useState<string>('CV');
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
@@ -13,22 +24,43 @@ const FileUploadComponent: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!file) return;
+    if (!file || !name) return;
 
     setIsLoading(true);
 
-    // Simulasi pengiriman file ke server
+    // Simulate sending file and data to server using multipart form data
+    const formData = new FormData();
+
+    formData.append('csv_file', file);
+    formData.append('config_id', measurementOption === "CV"? '1' : '2');
+    formData.append('name', name);
+    formData.append('description', description);
+
     try {
-      // Ganti URL dengan URL sesungguhnya untuk mengirim file ke server
-/*       const response = await fetch('https://example.com/upload', {
+      let response = await fetch(API_URL + 'measurements/', {
         method: 'POST',
-        body: file,
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        },
+        body: formData,
       });
 
-      const data = await response.json(); */
-      setResult("High");
+      let data = await response.json();
+      let id = data.id;
+
+      response = await fetch(API_URL + 'measurements/' + (id - 1) + "/analyze", {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        },
+        body: JSON.stringify({"id": id - 1})
+      });
+
+      data = await response.json();
+      console.log(data)
+      setResult(data.analysis);
     } catch (error) {
-      console.error('Error uploading file:', error);
+
     } finally {
       setIsLoading(false);
     }
@@ -36,6 +68,52 @@ const FileUploadComponent: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mt-10">
+      <div className="mb-4">
+        <label className="flex items-center mr-4">
+          <input
+            type="radio"
+            name="measurementOption"
+            value="CV"
+            checked={measurementOption === 'CV'}
+            onChange={(e) => setMeasurementOption(e.target.value)}
+          />
+          <span className="ml-2">CV</span>
+        </label>
+        <label className="flex items-center">
+          <input
+            type="radio"
+            name="measurementOption"
+            value="DPV"
+            checked={measurementOption === 'DPV'}
+            onChange={(e) => setMeasurementOption(e.target.value)}
+          />
+          <span className="ml-2">DPV</span>
+        </label>
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="name" className="block text-sm font-medium mb-2">
+          Nama:
+        </label>
+        <input
+          id="name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+        />
+        <label htmlFor="description" className="block text-sm font-medium mt-4 mb-2">
+          Deskripsi:
+        </label>
+        <textarea
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          rows={4}
+        />
+      </div>
+
       <label
         htmlFor="dropzone-file"
         className="flex flex-col justify-center items-center w-9/12 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100"
@@ -72,7 +150,7 @@ const FileUploadComponent: React.FC = () => {
       </label>
       {result && (
         <p className="mt-4">
-          Hasil analisis: {result === 'high' ? 'Berpotensi Tinggi' : 'Tidak Berpotensi'}
+          Hasil analisis: {result}
         </p>
       )}
       <button

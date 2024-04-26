@@ -121,15 +121,12 @@ const yValuesCorrection = [];
 
 // Memisahkan nilai x dan y dari setiap baris
 lines.forEach(line => {
-console.log(line)
   const [x, y] = line.replace(/"/g, '').trim().split(",")
-  console.log(x)
   xValues.push(parseFloat(x + "\""));
   yValues.push(parseFloat(y));
     yValuesCorrection.push(parseFloat(y) - 20);
 });
 
-console.log(xValues)
 
 ChartJS.register(
   CategoryScale,
