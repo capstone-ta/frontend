@@ -48,17 +48,17 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
       let data = await response.json();
       let id = data.id;
 
-      response = await fetch(API_URL + 'measurements/' + (id - 1) + "/analyze", {
+      response = await fetch(API_URL + 'measurements/' + id + "/analyze", {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${jwt}`
         },
-        body: JSON.stringify({"id": id - 1})
+        body: JSON.stringify({"id": id})
       });
 
       data = await response.json();
       console.log(data)
-      setResult(data.analysis);
+      setResult(data.result);
     } catch (error) {
 
     } finally {
@@ -150,7 +150,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
       </label>
       {result && (
         <p className="mt-4">
-          Hasil analisis: {result}
+          Hasil analisis: {result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}
         </p>
       )}
       <button

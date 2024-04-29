@@ -2,91 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../constant';
 import { Link } from 'react-router-dom';
 
-  const datum = [
-    {
-      "id": 0,
-      "name": "string",
-      "description": "string",
-      "filepath": "string",
-      "analysis": "string",
-      "result": true,
-      "config_id": 0,
-      "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "config": {
-        "id": 0,
-        "created_at": "2024-04-26T14:37:59.451Z",
-        "updated_at": "2024-04-26T14:37:59.451Z",
-        "method": "string",
-        "description": "string"
-      },
-      "user": {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "name": "string",
-        "email": "user@example.com",
-        "access_token": "string",
-        "token_type": "string",
-        "role": "string"
-      },
-      "created_at": "2024-04-26T14:37:59.451Z",
-      "updated_at": "2024-04-26T14:37:59.451Z"
-    },
-    {
-      "id": 0,
-      "name": "string",
-      "description": "string",
-      "filepath": "string",
-      "analysis": "string",
-      "result": true,
-      "config_id": 0,
-      "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "config": {
-        "id": 0,
-        "created_at": "2024-04-26T14:37:59.451Z",
-        "updated_at": "2024-04-26T14:37:59.451Z",
-        "method": "string",
-        "description": "string"
-      },
-      "user": {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "name": "string",
-        "email": "user@example.com",
-        "access_token": "string",
-        "token_type": "string",
-        "role": "string"
-      },
-      "created_at": "2024-04-26T14:37:59.451Z",
-      "updated_at": "2024-04-26T14:37:59.451Z"
-    },
-    {
-      "id": 0,
-      "name": "string",
-      "description": "string",
-      "filepath": "string",
-      "analysis": "string",
-      "result": true,
-      "config_id": 0,
-      "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "config": {
-        "id": 0,
-        "created_at": "2024-04-26T14:37:59.451Z",
-        "updated_at": "2024-04-26T14:37:59.451Z",
-        "method": "string",
-        "description": "string"
-      },
-      "user": {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "name": "string",
-        "email": "user@example.com",
-        "access_token": "string",
-        "token_type": "string",
-        "role": "string"
-      },
-      "created_at": "2024-04-26T14:37:59.451Z",
-      "updated_at": "2024-04-26T14:37:59.451Z"
-    }
-  ]
-
-
 interface TableHistoryProps {
   jwt: string;
   uuid: string;
@@ -96,7 +11,7 @@ interface TableHistoryProps {
 interface FormattedData {
   id: number;
   name: string;
-  analysis: string;
+  result: string;
   createdAt: string; // Use a more descriptive name
 }
 
@@ -106,25 +21,35 @@ const TableHistory: React.FC<TableHistoryProps> = ({ jwt, uuid, role }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_URL + 'measurements/user/' + uuid, {
-          headers: {
-            Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
-          },
-        });
+        let response;
+        if (role === "USER") {
+          response = await fetch(API_URL + 'measurements/user/' + uuid, {
+            headers: {
+              Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
+            },
+          });
+        } else {
+          response = await fetch(API_URL + 'measurements/', {
+            headers: {
+              Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
+            },
+          });
+        }
   
         if (!response.ok) {
           throw new Error('Failed to fetch user profile data');
         }
         const data = await response.json();
-        
-        const formattedData: FormattedData[] = datum.map((obj) => ({
+        console.log(data)
+        const formattedData: FormattedData[] = data.map((obj) => ({
           id: obj.id,
           name: obj.user.name,
-          analysis: obj.analysis,
+          result: obj.result,
           createdAt:  new Date(obj.config.created_at).toLocaleDateString('id-ID', {
             timeZone: 'Asia/Jakarta', // WIB timezone
           })
         }));
+
 
         setHistoryData(formattedData);
       } catch (error) {
@@ -170,7 +95,7 @@ const TableHistory: React.FC<TableHistoryProps> = ({ jwt, uuid, role }) => {
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.id}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.createdAt}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.analysis}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.result && historyItem.result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}</td>
               {role && role != "USER" && (
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <Link to={"/dashboard/history/" + historyItem.id} className="text-blue-500 hover:underline">
