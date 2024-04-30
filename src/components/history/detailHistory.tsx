@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Tab } from '@headlessui/react';
-import Graph from '../graph';
-import GraphChart2 from '../graph_chart2';
-import GraphNivo from '../graph_nivo';
+import Graph from './graph';
+import GraphChart2 from './graph_chart2';
+import GraphNivo from './graph_nivo';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
@@ -18,11 +18,14 @@ interface FormattedData {
     createdAt: string; // Use a more descriptive name
   }
 
-const DetailHistory: React.FC = () => {
+
+const DetailHistory:  React.FC = () => {
     const { role, setRole } = useContext(RoleContext);
     const navigate = useNavigate();
     const jwtProvider = JWTProvider()
     const [detailData, setDetailData] = useState<FormattedData>({});
+    const [realChartData, setRealChartData] = useState<any[]>([]);
+    const [correctionChartData, setCorrectionChartData] = useState<any[]>([]);
     const { id } = useParams(); 
 
     useEffect(() => {
@@ -55,7 +58,7 @@ const DetailHistory: React.FC = () => {
                 throw new Error('Failed to fetch user profile data');
               }
               const data = await response.json();
-
+              const filePath = "https://storage.googleapis.com/ta2-storage/20240430073405_1.json";
               const formattedData: FormattedData = {
                 id: data.id,
                 name: data.user.name,
@@ -65,6 +68,31 @@ const DetailHistory: React.FC = () => {
                   timeZone: 'Asia/Jakarta', // WIB timezone
                 })
               }
+
+              const responseJson = fetch(filePath)
+                .then(response => response.json())
+                .then(data => {
+
+                    let mappedArray = data.current.map((xValue, index) => {
+                        // Check if array lengths are equal to avoid out-of-bounds access
+                        if (index >= data.voltage.length) {
+                          throw new Error('Arrays have different lengths');
+                        }
+                      
+                        return { x: xValue, y: data.voltage[index] };
+                      });
+                    setRealChartData(mappedArray);
+                    console.log(mappedArray)
+                    mappedArray = data.baseline.map((coordinatePair) => {
+                        return {
+                          x: coordinatePair[0],
+                          y: coordinatePair[1],
+                        };
+                      });
+                      
+                    setCorrectionChartData(mappedArray);
+                    console.log(mappedArray)
+                }).catch(error => console.log(error));
       
       
               setDetailData(formattedData);
@@ -117,7 +145,7 @@ const DetailHistory: React.FC = () => {
             </Tab.List>
 
             <Tab.Panels>
-                <Tab.Panel className="p-20"><Graph /></Tab.Panel>
+                <Tab.Panel className="p-20"><Graph realChart={realChartData} correctionChart={correctionChartData} /></Tab.Panel>
                 <Tab.Panel className="p-20"><GraphChart2 /></Tab.Panel>
                 <Tab.Panel className="p-20"><GraphNivo /></Tab.Panel>
                 <Tab.Panel className="p-4">Content for Tab 4</Tab.Panel>

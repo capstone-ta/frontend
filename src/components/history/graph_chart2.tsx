@@ -153,28 +153,28 @@ export const options = {
 
 const labels = xValues;
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Sebelum Correction',
-      data: yValues,
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      pointRadius: 0
-    },
-    {
-      label: 'Setelah Correction',
-      data: yValuesCorrection,
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      pointRadius: 0
-    },
-  ],
-};
-
 
 const GraphChart2: React.FC = () => {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Sebelum Correction',
+        data: yValues,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        pointRadius: 0
+      },
+      {
+        label: 'Setelah Correction',
+        data: yValuesCorrection,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        pointRadius: 0
+      },
+    ],
+  };
+
   return (
     <div>
       <Line data={data} options={options} />

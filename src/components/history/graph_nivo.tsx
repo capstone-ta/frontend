@@ -118,20 +118,19 @@ const dataArray1 = dataString.split("\n").map(item => {
     return { "x": parseFloat(x), "y": parseFloat(y) - 20 };
 });
 
-
-const data = [
-    {
-      "id": "sebelum correction",
-      "color": "hsl(47, 70%, 50%)",
-      "data": dataArray
-    },
-    {
-      "id": "setelah correction",
-      "color": "hsl(187, 70%, 50%)",
-      "data": dataArray1
-    }
-  ]
 const GraphNivo: React.FC = () => {
+    const data = [
+        {
+          "id": "sebelum correction",
+          "color": "hsl(47, 70%, 50%)",
+          "data": dataArray
+        },
+        {
+          "id": "setelah correction",
+          "color": "hsl(187, 70%, 50%)",
+          "data": dataArray1
+        }
+      ]
     return(
         <div className='h-96'>
             <ResponsiveLine

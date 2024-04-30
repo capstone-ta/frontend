@@ -131,17 +131,21 @@ const dataArray2 = dataString.split("\n").map(item => {
     return { x: parseFloat(x), y: (parseFloat(y) - 20) };
 });
 
+interface TableHistoryProps {
+  realChart: string[];
+  correctionChart: string[];
+}
 
 
-const Graph: React.FC = () => {
+const Graph: React.FC<TableHistoryProps> = ({ realChart, correctionChart }) => {
   const [data, setData] = useState<DataPoint[]>([]);
   const [data2, setData2] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setData(dataArray);
-        setData2(dataArray2)
+        setData(realChart);
+        setData2(correctionChart)
       } catch (error) {
       }
     };
