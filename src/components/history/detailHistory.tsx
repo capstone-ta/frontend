@@ -16,6 +16,7 @@ interface FormattedData {
     result: string;
     email: string;
     createdAt: string; // Use a more descriptive name
+    filePath: string;
   }
 
 
@@ -58,6 +59,7 @@ const DetailHistory:  React.FC = () => {
                 throw new Error('Failed to fetch user profile data');
               }
               const data = await response.json();
+              console.log(data)
               const filePath = "https://storage.googleapis.com/ta2-storage/20240430073405_1.json";
               const formattedData: FormattedData = {
                 id: data.id,
@@ -66,35 +68,11 @@ const DetailHistory:  React.FC = () => {
                 email: data.user.email,
                 createdAt:  new Date(data.config.created_at).toLocaleDateString('id-ID', {
                   timeZone: 'Asia/Jakarta', // WIB timezone
-                })
+                }),
+                filePath: data.analysis
               }
 
-              const responseJson = fetch(filePath)
-                .then(response => response.json())
-                .then(data => {
-
-                    let mappedArray = data.current.map((xValue, index) => {
-                        // Check if array lengths are equal to avoid out-of-bounds access
-                        if (index >= data.voltage.length) {
-                          throw new Error('Arrays have different lengths');
-                        }
-                      
-                        return { x: xValue, y: data.voltage[index] };
-                      });
-                    setRealChartData(mappedArray);
-                    console.log(mappedArray)
-                    mappedArray = data.baseline.map((coordinatePair) => {
-                        return {
-                          x: coordinatePair[0],
-                          y: coordinatePair[1],
-                        };
-                      });
-                      
-                    setCorrectionChartData(mappedArray);
-                    console.log(mappedArray)
-                }).catch(error => console.log(error));
-      
-      
+              
               setDetailData(formattedData);
             } catch (error) {
               console.error('Error fetching data:', error);
@@ -145,9 +123,9 @@ const DetailHistory:  React.FC = () => {
             </Tab.List>
 
             <Tab.Panels>
-                <Tab.Panel className="p-20"><Graph realChart={realChartData} correctionChart={correctionChartData} /></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphChart2 /></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphNivo /></Tab.Panel>
+                <Tab.Panel className="p-20"><Graph filePath={detailData.filePath}/></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphChart2 filePath={detailData.filePath} /></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphNivo filePath={detailData.filePath} /></Tab.Panel>
                 <Tab.Panel className="p-4">Content for Tab 4</Tab.Panel>
             </Tab.Panels>
             </Tab.Group>

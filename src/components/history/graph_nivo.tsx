@@ -1,6 +1,7 @@
 // install (please try to align the version of installed @nivo packages)
 // yarn add @nivo/line
 import { ResponsiveLine } from '@nivo/line'
+import React, { useState, useEffect } from 'react';
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -108,6 +109,11 @@ const dataString = `"-0.50017,139.159"
 "0.489963,94.4296"
 "0.50017,95.0176"`;
 
+interface DataPoint {
+    x: number;
+    y: number;
+  }
+
 const dataArray = dataString.split("\n").map(item => {
     const [x, y] = item.replace(/"/g, "").split(",");
     return { "x": parseFloat(x), "y": parseFloat(y) };
@@ -118,23 +124,59 @@ const dataArray1 = dataString.split("\n").map(item => {
     return { "x": parseFloat(x), "y": parseFloat(y) - 20 };
 });
 
-const GraphNivo: React.FC = () => {
-    const data = [
+interface GraphProps {
+    filePath: string;
+  }
+  
+
+const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
+    const [data, setData] = useState<DataPoint[]>([]);
+    const [data2, setData2] = useState<DataPoint[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const responseJson = fetch(filePath)
+          .then(response => response.json())
+          .then(data => {
+              let mappedArray = data.current.map((xValue, index) => {
+                  // Check if array lengths are equal to avoid out-of-bounds access
+                  if (index >= data.voltage.length) {
+                    throw new Error('Arrays have different lengths');
+                  }
+                
+                  return { y: xValue, x: data.voltage[index] };
+                });
+                setData(mappedArray);
+              mappedArray = data.baseline.map((coordinatePair) => {
+                  return {
+                    x: coordinatePair[0],
+                    y: coordinatePair[1],
+                  };
+                });
+                
+                setData2(mappedArray);
+          }).catch(error => console.log(error));
+        } 
+    
+    
+        fetchData();
+      }, []);
+    const data_graph = [
         {
           "id": "sebelum correction",
           "color": "hsl(47, 70%, 50%)",
-          "data": dataArray
+          "data": data
         },
         {
           "id": "setelah correction",
           "color": "hsl(187, 70%, 50%)",
-          "data": dataArray1
+          "data": data2
         }
       ]
     return(
         <div className='h-96'>
             <ResponsiveLine
-        data={data}
+        data={data_graph}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
         xScale={{ 
             type: 'linear',

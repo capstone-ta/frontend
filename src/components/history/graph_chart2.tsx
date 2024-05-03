@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -126,6 +126,7 @@ lines.forEach(line => {
   yValues.push(parseFloat(y));
     yValuesCorrection.push(parseFloat(y) - 20);
 });
+console.log(yValuesCorrection)
 
 
 ChartJS.register(
@@ -151,33 +152,59 @@ export const options = {
   },
 };
 
-const labels = xValues;
 
+interface GraphProps {
+  filePath: string;
+}
 
-const GraphChart2: React.FC = () => {
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Sebelum Correction',
-        data: yValues,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        pointRadius: 0
-      },
-      {
-        label: 'Setelah Correction',
-        data: yValuesCorrection,
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        pointRadius: 0
-      },
-    ],
-  };
+interface DataPoint {
+  x: number;
+  y: number;
+}
+
+const GraphChart2: React.FC<GraphProps> = ({filePath}) => {
+  const [data, setData] = useState<string[]>([]);
+  const [data2, setData2] = useState<string[]>([]);
+  const [labels, setLabels] = useState<string[]>(xValues);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const responseJson = await fetch(filePath)
+          .then(response => response.json())
+          .then(data => {
+              setData(data.current)
+              setLabels(data.voltage)
+               const y_baseline = data.baseline.map((row) => row[1]);
+                setData2(y_baseline);
+          }).catch(error => console.log(error));
+
+        } 
+        fetchData();
+      }, []);
+  
+      let data_graph1 = {
+        labels,
+        datasets: [
+          {
+            label: 'Sebelum Correction',
+            data: data,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            pointRadius: 0
+          },
+          {
+            label: 'Setelah Correction',
+            data: data2,
+            borderColor: 'rgb(53, 162, 235)',
+            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            pointRadius: 0
+          },
+        ],
+      };  
 
   return (
     <div>
-      <Line data={data} options={options} />
+      <Line data={data_graph1} options={options} />
     </div>
   );
 };
