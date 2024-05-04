@@ -29,7 +29,7 @@ const TableHistory: React.FC<TableHistoryProps> = ({ jwt, uuid, role }) => {
             },
           });
         } else {
-          response = await fetch(API_URL + 'measurements/', {
+          response = await fetch(API_URL + 'measurements', {
             headers: {
               Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
             },

@@ -3,6 +3,7 @@ import { Tab } from '@headlessui/react';
 import Graph from './graph';
 import GraphChart2 from './graph_chart2';
 import GraphNivo from './graph_nivo';
+import Plotly from './plotly_chart';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
@@ -126,7 +127,7 @@ const DetailHistory:  React.FC = () => {
                 <Tab.Panel className="p-20"><Graph filePath={detailData.filePath}/></Tab.Panel>
                 <Tab.Panel className="p-20"><GraphChart2 filePath={detailData.filePath} /></Tab.Panel>
                 <Tab.Panel className="p-20"><GraphNivo filePath={detailData.filePath} /></Tab.Panel>
-                <Tab.Panel className="p-4">Content for Tab 4</Tab.Panel>
+                <Tab.Panel className="p-4"><Plotly filePath={detailData.filePath}></Plotly></Tab.Panel>
             </Tab.Panels>
             </Tab.Group>
         </div>

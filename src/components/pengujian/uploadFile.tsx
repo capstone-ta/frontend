@@ -35,9 +35,9 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
     formData.append('config_id', measurementOption === "CV"? '1' : '2');
     formData.append('name', name);
     formData.append('description', description);
-
+    console.log(jwt)
     try {
-      let response = await fetch(API_URL + 'measurements/', {
+      let response = await fetch(API_URL + 'measurements', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${jwt}`
@@ -47,7 +47,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
 
       let data = await response.json();
       let id = data.id;
-
+      
       response = await fetch(API_URL + 'measurements/' + id + "/analyze", {
         method: 'POST',
         headers: {
