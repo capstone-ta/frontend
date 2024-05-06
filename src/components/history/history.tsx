@@ -40,8 +40,8 @@ const TableHistory: React.FC<TableHistoryProps> = ({ jwt, uuid, role }) => {
           throw new Error('Failed to fetch user profile data');
         }
         const data = await response.json();
-        console.log(data)
-        const formattedData: FormattedData[] = data.map((obj) => ({
+
+        const formattedData: FormattedData[] = data.map((obj: any) => ({
           id: obj.id,
           name: obj.user.name,
           result: obj.result,

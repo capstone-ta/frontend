@@ -25,9 +25,7 @@ const DetailHistory:  React.FC = () => {
     const { role, setRole } = useContext(RoleContext);
     const navigate = useNavigate();
     const jwtProvider = JWTProvider()
-    const [detailData, setDetailData] = useState<FormattedData>({});
-    const [realChartData, setRealChartData] = useState<any[]>([]);
-    const [correctionChartData, setCorrectionChartData] = useState<any[]>([]);
+    const [detailData, setDetailData] = useState<FormattedData | null>(null);
     const { id } = useParams(); 
 
     useEffect(() => {
@@ -60,8 +58,6 @@ const DetailHistory:  React.FC = () => {
                 throw new Error('Failed to fetch user profile data');
               }
               const data = await response.json();
-              console.log(data)
-              const filePath = "https://storage.googleapis.com/ta2-storage/20240430073405_1.json";
               const formattedData: FormattedData = {
                 id: data.id,
                 name: data.user.name,
@@ -86,8 +82,8 @@ const DetailHistory:  React.FC = () => {
     return (
         <div className="flex flex-col h-screen">
             <Link to="/dashboard/history" className="absolute top-left inline-flex items-center space-x-2 hover:border-indigo-500 hover:rounded-full border-2 border-transparent p-2 my-10 ml-10">
-                    <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                        viewBox="0 0 476.213 476.213" xml:space="preserve">
+                    <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 476.213 476.213">
                     <polygon points="476.213,223.107 57.427,223.107 151.82,128.713 130.607,107.5 0,238.106 130.607,368.714 151.82,347.5 
                         57.427,253.107 476.213,253.107 "/>
                     </svg>
@@ -99,15 +95,15 @@ const DetailHistory:  React.FC = () => {
                 <>
                     <div className="mb-4 flex flex-row">
                         <label className="block text-l font-medium text-gray-700">Nama:</label>
-                        <p className="text-l text-gray-900">{detailData.name}</p>
+                        <p className="text-l text-gray-900">{detailData!.name}</p>
                     </div>
                     <div className='mb-4 flex flex-row'>
                         <label className="block text-l font-medium text-gray-700">Email:</label>
-                        <p className="text-l text-gray-900">{detailData.email}</p>
+                        <p className="text-l text-gray-900">{detailData!.email}</p>
                     </div>
                     <div className='flex flex-row'>
                         <label className="block text-l font-medium text-gray-700">Hasil Analisis:</label>
-                        <p className="text-l text-gray-900">{detailData.result &&  detailData.result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}</p>
+                        <p className="text-l text-gray-900">{detailData!.result &&  detailData!.result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}</p>
                     </div>
                 </>
             </div>
@@ -124,10 +120,10 @@ const DetailHistory:  React.FC = () => {
             </Tab.List>
 
             <Tab.Panels>
-                <Tab.Panel className="p-20"><Graph filePath={detailData.filePath}/></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphChart2 filePath={detailData.filePath} /></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphNivo filePath={detailData.filePath} /></Tab.Panel>
-                <Tab.Panel className="p-4"><Plotly filePath={detailData.filePath}></Plotly></Tab.Panel>
+                <Tab.Panel className="p-20"><Graph filePath={detailData!.filePath}/></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphChart2 filePath={detailData!.filePath} /></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphNivo filePath={detailData!.filePath} /></Tab.Panel>
+                <Tab.Panel className="p-4"><Plotly filePath={detailData!.filePath}></Plotly></Tab.Panel>
             </Tab.Panels>
             </Tab.Group>
         </div>

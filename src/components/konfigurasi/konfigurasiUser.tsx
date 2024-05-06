@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../constant';
 import ToastSuccess from '../toast/success';
 import ToastWarning from '../toast/warning';
-import { Link } from 'react-router-dom';
 
 interface TableUserConcifgurationProps {
   jwt: string;
-  uuid: string;
-  role: string;
 }
 
 interface FormattedData {
@@ -17,7 +14,7 @@ interface FormattedData {
   role: string;
 }
 
-const UserConfigurationComponent: React.FC<TableUserConcifgurationProps> = ({ jwt, uuid, role }) => {
+const UserConfigurationComponent: React.FC<TableUserConcifgurationProps> = ({ jwt }) => {
   const [userData, setUserData] = useState<FormattedData[]>([]);
   const [messageToastWarning, setMessageToastWarning] = useState("");
   const [messageToastSuccess, setMessageToastSuccess] = useState("");
@@ -27,9 +24,9 @@ const UserConfigurationComponent: React.FC<TableUserConcifgurationProps> = ({ jw
       let response;
       
       response = await fetch(API_URL + 'users', {
-      headers: {
-          Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
-      },
+        headers: {
+            Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
+        },
       });
       
 
@@ -39,7 +36,7 @@ const UserConfigurationComponent: React.FC<TableUserConcifgurationProps> = ({ jw
       }
       const data = await response.json();
       console.log(data)
-      const formattedData: FormattedData[] = data.map((obj) => ({
+      const formattedData: FormattedData[] = data.map((obj: any) => ({
         id: obj.id,
         email: obj.email,
         username: obj.name,
@@ -53,8 +50,6 @@ const UserConfigurationComponent: React.FC<TableUserConcifgurationProps> = ({ jw
   };
 
   useEffect(() => {
-    
-
     fetchData();
   }, []);
 

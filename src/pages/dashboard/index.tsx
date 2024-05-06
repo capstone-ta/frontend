@@ -1,8 +1,5 @@
 import Sidebar from "../../components/sidebar"
 import Navbar from "../../components/navbar"
-import Graph from "../../components/history/graph"
-import GraphChart2 from "../../components/history/graph_chart2"
-import GraphNivo from "../../components/history/graph_nivo"
 import Footer from "../../components/footer"
 import { useEffect } from "react"
 import { useContext } from "react"

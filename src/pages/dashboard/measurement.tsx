@@ -1,6 +1,5 @@
 import Sidebar from "../../components/sidebar"
 import Navbar from "../../components/navbar"
-import Graph from "../../components/history/graph"
 import Footer from "../../components/footer"
 import DetailHistory from "../../components/history/detailHistory"
 import { useEffect } from "react"

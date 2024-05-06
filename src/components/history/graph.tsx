@@ -6,22 +6,6 @@ interface DataPoint {
   y: number;
 }
 
-const specialPoint = [{ x: 0.0204151, y: 146.915 }, { x: 0.0204151, y: 146.915 - 20 }];
-
-
-const renderSpecialDot = (props: any) => {
-    const { cx, cy, stroke, strokeWidth, r } = props;
-    for(var i = 0; i < specialPoint.length; i++) {
-        if (props.payload.x === specialPoint[i].x && props.payload.y === specialPoint[i].y) {
-            return (
-            <g>
-                <circle cx={cx} cy={cy} r={r + 4} stroke="#ff7300" fill="#ff7300" strokeWidth={strokeWidth} />
-            </g>
-            );
-        }
-    }
-  };
-
 interface GraphProps {
   filePath: string;
 }
@@ -37,11 +21,11 @@ const Graph: React.FC<GraphProps> = ({ filePath }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const responseJson = fetch(filePath)
+      await fetch(filePath)
       .then(response => response.json())
       .then(data => {
           console.log(data)
-          let mappedArray = data.current.map((xValue, index) => {
+          let mappedArray = data.current.map((xValue: string, index: string) => {
               // Check if array lengths are equal to avoid out-of-bounds access
               if (index >= data.voltage.length) {
                 throw new Error('Arrays have different lengths');
@@ -51,7 +35,7 @@ const Graph: React.FC<GraphProps> = ({ filePath }) => {
             });
             setDataPengukuranAsli(mappedArray);
           if (data.baseline != null) {
-              mappedArray = data.baseline.map((coordinatePair) => {
+              mappedArray = data.baseline.map((coordinatePair: [string, string]) => {
                 return {
                   x: coordinatePair[0],
                   y: coordinatePair[1],
@@ -71,7 +55,7 @@ const Graph: React.FC<GraphProps> = ({ filePath }) => {
               setDataPuncak1(mappedArray)
           } else {
             setIsCV(true)
-            mappedArray = data.baseline_oxidation.map((coordinatePair) => {
+            mappedArray = data.baseline_oxidation.map((coordinatePair: [string, string]) => {
               return {
                 x: coordinatePair[0],
                 y: coordinatePair[1],
@@ -80,7 +64,7 @@ const Graph: React.FC<GraphProps> = ({ filePath }) => {
             
             setDataBaseline1(mappedArray);
 
-            mappedArray = data.baseline_reduction.map((coordinatePair) => {
+            mappedArray = data.baseline_reduction.map((coordinatePair: [string, string]) => {
               return {
                 x: coordinatePair[0],
                 y: coordinatePair[1],
@@ -127,9 +111,9 @@ const Graph: React.FC<GraphProps> = ({ filePath }) => {
       <YAxis label={{ value: 'µA', angle: -90, position: 'insideLeft' }} />
       <Tooltip />
       <Legend verticalAlign="top" align="right" />
-      <Line name="pengukuran" data={dataPengukuranAsli} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} dot={renderSpecialDot}/>
-      <Line name={isCV ? "baseline correction - oksidasi" : "baseline correction"} data={dataBaseline1} dot={renderSpecialDot} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} />
-      {isCV ? <Line name="baseline correction - reduksi" data={dataBaseline2} dot={renderSpecialDot} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} /> : null}
+      <Line name="pengukuran" data={dataPengukuranAsli} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} dot={false}/>
+      <Line name={isCV ? "baseline correction - oksidasi" : "baseline correction"} data={dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} />
+      {isCV ? <Line name="baseline correction - reduksi" data={dataBaseline2} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} /> : null}
       <ReferenceLine label={isCV ? "puncak - oksidasi" : "puncak"} stroke="green" strokeDasharray="3 3" segment={dataPuncak1} />
       {isCV ? <ReferenceLine label="puncak - reduksi" stroke="green" strokeDasharray="3 3" segment={dataPuncak2} /> : null}
     </LineChart>

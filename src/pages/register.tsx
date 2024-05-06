@@ -3,7 +3,7 @@ import { API_URL } from '../constant';
 import { useNavigate } from 'react-router-dom';
 import ToastWarning from '../components/toast/warning';
 import ToastSuccess from '../components/toast/success';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();

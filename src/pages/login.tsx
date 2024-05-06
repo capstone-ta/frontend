@@ -3,7 +3,7 @@ import { API_URL } from '../constant';
 import { useNavigate } from 'react-router-dom';
 import ToastWarning from '../components/toast/warning';
 import ToastSuccess from '../components/toast/success';
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import {RoleContext} from '../role_provider';
 import JWTProvider from '../jwt_provider';
 
@@ -11,7 +11,7 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [messageToastWarning, setMessageToastWarning] = useState("");
   const [messageToastSuccess, setMessageToastSuccess] = useState("");
-  const { role, setRole } = useContext(RoleContext);
+  const { setRole } = useContext(RoleContext);
 
 
   const navigate = useNavigate();

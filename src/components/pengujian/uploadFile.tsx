@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { API_URL } from '../../constant';
 
-interface FileData {
-  file: File;
-  measurementOption: string;
-  name: string;
-  description: string;
-}
-
 const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
   const [file, setFile] = useState<File | null>(null);
   const [result, setResult] = useState<string | null>(null);

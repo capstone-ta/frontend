@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { API_URL } from './constant';
 
 interface JWT {
   jwt: string | null;
-  uuid: string | null;
-    getJwt: () => string | null;
-    getUUID: () => string | null;
+    getJwt: () => string | undefined;
+    getUUID: () => string | undefined;
     setJwt: (newJwt: string) => void;
     setUUID: (newUUID: string) => void;
   getRole: () => Promise<string | null>;

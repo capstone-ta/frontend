@@ -31,10 +31,10 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
 
     useEffect(() => {
         const fetchData = async () => {
-          const responseJson = fetch(filePath)
+          await fetch(filePath)
           .then(response => response.json())
           .then(data => {
-              let mappedArray = data.current.map((xValue, index) => {
+              let mappedArray = data.current.map((xValue: string, index: string) => {
                   // Check if array lengths are equal to avoid out-of-bounds access
                   if (index >= data.voltage.length) {
                     throw new Error('Arrays have different lengths');
@@ -45,7 +45,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
                 setData(mappedArray);
                 if (data.baseline != null) {
                   console.log("MARKKKK")
-                    mappedArray = data.baseline.map((coordinatePair) => {
+                    mappedArray = data.baseline.map((coordinatePair: [string, string]) => {
                       return {
                         x: coordinatePair[0],
                         y: coordinatePair[1],
@@ -65,7 +65,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
                     setData4(mappedArray)
                 } else {
                   setIsCV(true)
-                  mappedArray = data.baseline_oxidation.map((coordinatePair) => {
+                  mappedArray = data.baseline_oxidation.map((coordinatePair: [string, string]) => {
                     return {
                       x: coordinatePair[0],
                       y: coordinatePair[1],
@@ -74,7 +74,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
                   
                   setData2(mappedArray);
 
-                  mappedArray = data.baseline_reduction.map((coordinatePair) => {
+                  mappedArray = data.baseline_reduction.map((coordinatePair: [string, string]) => {
                     return {
                       x: coordinatePair[0],
                       y: coordinatePair[1],
