@@ -42,14 +42,15 @@ const Sidebar:React.FC<{clicked: string}>= ({clicked}) => {
                            <span className="ml-3 flex-1 whitespace-nowrap">Pengujian</span>
                         </Link>
                      </li>
+                     {role === "ADMIN" ? 
                      <li>
                         <Link to="/dashboard/konfigurasi" className={clicked === "konfigurasi" ?"bg-indigo-500 text-gray-100 " + baseClass  : "text-gray-500 hover:bg-gray-100 " + baseClass}>
                            <svg className={clicked === "konfigurasi" ? "text-gray-100 " + baseImage : "text-gray-500 " + baseImage} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                               <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                            </svg>
-                           <span className="ml-3 flex-1 whitespace-nowrap">Konfigurasi</span>
+                           <span className="ml-3 flex-1 whitespace-nowrap">Ubah User</span>
                         </Link>
-                     </li>
+                     </li> : <></>}
                      <li>
                         <Link to="/dashboard/user" className={clicked === "pengguna" ?"bg-indigo-500 text-gray-100 " + baseClass  : "text-gray-500 hover:bg-gray-100 " + baseClass}>
                            <svg className={clicked === "pengguna" ? "text-gray-100 " + baseImage : "text-gray-500 " + baseImage} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
