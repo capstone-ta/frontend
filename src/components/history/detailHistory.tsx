@@ -47,6 +47,7 @@ const DetailHistory:  React.FC = () => {
 
         const fetchData = async () => {
             try {
+              console.log("MAEKKKKK")
               const response = await fetch(API_URL + 'measurements/' + id, {
                 headers: {
                   Authorization: `Bearer ${jwtProvider.getJwt()}`, // Include JWT token in authorization header
@@ -55,7 +56,7 @@ const DetailHistory:  React.FC = () => {
               
               if (!response.ok) {
                 navigate('/dashboard/history');
-                throw new Error('Failed to fetch user profile data');
+                
               }
               const data = await response.json();
               const formattedData: FormattedData = {
@@ -69,7 +70,7 @@ const DetailHistory:  React.FC = () => {
                 filePath: data.analysis
               }
 
-              
+              console.log(data)
               setDetailData(formattedData);
             } catch (error) {
               console.error('Error fetching data:', error);
@@ -95,15 +96,15 @@ const DetailHistory:  React.FC = () => {
                 <>
                     <div className="mb-4 flex flex-row">
                         <label className="block text-l font-medium text-gray-700">Nama:</label>
-                        <p className="text-l text-gray-900">{detailData!.name}</p>
+                        <p className="text-l text-gray-900">{detailData?.name ? detailData.name : "TEMP"}</p>
                     </div>
                     <div className='mb-4 flex flex-row'>
                         <label className="block text-l font-medium text-gray-700">Email:</label>
-                        <p className="text-l text-gray-900">{detailData!.email}</p>
+                        <p className="text-l text-gray-900">{detailData?.email ? detailData.email : "TEMP"}</p>
                     </div>
                     <div className='flex flex-row'>
                         <label className="block text-l font-medium text-gray-700">Hasil Analisis:</label>
-                        <p className="text-l text-gray-900">{detailData!.result &&  detailData!.result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}</p>
+                        <p className="text-l text-gray-900">{detailData && detailData!.result &&  detailData!.result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}</p>
                     </div>
                 </>
             </div>
@@ -120,10 +121,10 @@ const DetailHistory:  React.FC = () => {
             </Tab.List>
 
             <Tab.Panels>
-                <Tab.Panel className="p-20"><Graph filePath={detailData!.filePath}/></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphChart2 filePath={detailData!.filePath} /></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphNivo filePath={detailData!.filePath} /></Tab.Panel>
-                <Tab.Panel className="p-4"><Plotly filePath={detailData!.filePath}></Plotly></Tab.Panel>
+                <Tab.Panel className="p-20"><Graph filePath={detailData ? detailData!.filePath : ""}/></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphChart2 filePath={detailData ?  detailData!.filePath : ""} /></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphNivo filePath={detailData ?  detailData!.filePath : ""} /></Tab.Panel>
+                <Tab.Panel className="p-4"><Plotly filePath={detailData ?  detailData!.filePath : ""}></Plotly></Tab.Panel>
             </Tab.Panels>
             </Tab.Group>
         </div>
