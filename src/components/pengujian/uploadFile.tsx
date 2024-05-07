@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { API_URL } from '../../constant';
+import ToastSuccess from '../toast/success';
+import ToastWarning from '../toast/warning';
 
 const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
   const [file, setFile] = useState<File | null>(null);
@@ -8,6 +10,8 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
   const [measurementOption, setMeasurementOption] = useState<string>('CV');
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [messageToastWarning, setMessageToastWarning] = useState("");
+  const [messageToastSuccess, setMessageToastSuccess] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
@@ -28,7 +32,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
     formData.append('config_id', measurementOption === "CV"? '1' : '2');
     formData.append('name', name);
     formData.append('description', description);
-    console.log(jwt)
+   
     try {
       let response = await fetch(API_URL + 'measurements', {
         method: 'POST',
@@ -38,7 +42,10 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
         body: formData,
       });
 
+      setMessageToastSuccess("Berhasil mengunggah file, sedang menganalisis");
+
       let data = await response.json();
+
       let id = data.id;
       
       response = await fetch(API_URL + 'measurements/' + id + "/analyze", {
@@ -50,10 +57,14 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
       });
 
       data = await response.json();
-      console.log(data)
       setResult(data.result);
-    } catch (error) {
 
+      setMessageToastSuccess("Berhasil menganalisis file");
+      setTimeout(() => {
+        setMessageToastSuccess("");
+      }, 2000);
+    } catch (error) {
+      setMessageToastWarning("Gagal mengunggah file");
     } finally {
       setIsLoading(false);
     }
@@ -130,7 +141,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
           <p className="mb-2 text-sm text-gray-500">
             {}<span className="font-semibold">Klik untuk unggah</span> atau tarik file
           </p>
-          <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+          <p className="text-xs text-gray-500">CSV</p>
           {file && <p className="mt-2 text-sm text-gray-500">{file.name}</p>}
         </div>
         <input
@@ -141,7 +152,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
           disabled={isLoading}
         />
       </label>
-      {result && (
+      {result != null && (
         <p className="mt-4">
           Hasil analisis: {result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}
         </p>
@@ -153,6 +164,8 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
       >
         {isLoading ? 'Loading...' : 'Upload'}
       </button>
+      {messageToastWarning != "" && <ToastWarning message={messageToastWarning} />}
+      {messageToastSuccess != "" && <ToastSuccess message={messageToastSuccess} />}
     </div>
   );
 };
