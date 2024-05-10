@@ -3,39 +3,23 @@ import Navbar from "../../components/navbar"
 import Footer from "../../components/footer"
 import DetailHistory from "../../components/history/detailHistory"
 import { useEffect } from "react"
-import { useContext } from "react"
-import { RoleContext } from "../../role_provider"
 import { useNavigate } from 'react-router-dom';
-import JWTProvider from "../../jwt_provider"
+import AuthProvider from "../../utils/authProvider"
 
 
 const Measurements = () => {
-    const { role, setRole } = useContext(RoleContext);
     const navigate = useNavigate();
-    const jwtProvider = JWTProvider()
+    const authProvider = AuthProvider()
 
     useEffect(() => {
-        
-        if (jwtProvider.getJwt() === null) {
-          navigate('/login');
-        }
-        if (role === null) {
-            jwtProvider.getRole().then((res) => {
-                if (res != null) {
-                    setRole(res!);
-                    if (res === "USER") {
-                        navigate('/dashboard/history');
-                    }
-                } else {
-                    navigate('/login');
-                }
-            })
-        }
-        if (role === "USER") {
-            console.log("MARKK")
-            navigate('/dashboard/history');
-        }
-      }, [jwtProvider.jwt]);
+        authProvider.checkCredential().then((role) => {
+            if (role === null) {
+                navigate('/login');
+            } else if (role === "USER") {
+                navigate('/dashboard/history');
+            }
+        })
+      }, [authProvider.jwt]);
 
     return (
         <div>

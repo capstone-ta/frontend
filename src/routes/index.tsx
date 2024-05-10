@@ -1,14 +1,15 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/index'
-import Login from './pages/login'
-import Register from './pages/register'
-import Dashboard from './pages/dashboard/index';
-import Pengujian from './pages/dashboard/pengujian';
-import Konfigurasi from './pages/dashboard/konfigurasi';
-import Pengguna from './pages/dashboard/pengguna';
-import History from './pages/dashboard/history';
-import Measurements from './pages/dashboard/measurement';
-import './index.css'
+import Home from '../pages/index';
+import Login from '../pages/login';
+import Register from '../pages/register';
+import Dashboard from '../pages/dashboard/index';
+import Pengujian from '../pages/dashboard/pengujian';
+import Konfigurasi from '../pages/dashboard/konfigurasi';
+import Pengguna from '../pages/dashboard/pengguna';
+import History from '../pages/dashboard/history';
+import Measurements from '../pages/dashboard/measurement';
+import "../index.css"
+
 
 function App() {
   return (

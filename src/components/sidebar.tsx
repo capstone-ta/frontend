@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { RoleContext } from '../role_provider';
-import JWTProvider from '../jwt_provider';
+import { RoleContext } from '../utils/roleProvider';
+import AuthProvider from '../utils/authProvider';
 
 const Sidebar:React.FC<{clicked: string}>= ({clicked}) => {
     let baseClass = ' text-base font-normal rounded-lg flex items-center p-2 group';
@@ -10,11 +10,11 @@ const Sidebar:React.FC<{clicked: string}>= ({clicked}) => {
     const { role, setRole } = useContext(RoleContext);
 
 
-  const jwtProvider = JWTProvider()
+  const authProvider = AuthProvider()
 
   const handlerLogOut = () => {
-      jwtProvider.setJwt("");
-      jwtProvider.setUUID("");
+      authProvider.setJwt("");
+      authProvider.setUUID("");
       setRole("");
    }
     

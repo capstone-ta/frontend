@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App' // Your main app component
-import RoleProvider from './role_provider' // Assuming the path to your auth context
+import App from './routes' 
+import RoleProvider from './utils/roleProvider' 
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

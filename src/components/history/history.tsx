@@ -1,47 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../constant';
 import { Link } from 'react-router-dom';
+import { HistoryAPI, HistoryUserAPI } from '../../api/history';
+import HistoryDataInterface from '../../types/history';
 
-interface TableHistoryProps {
-  jwt: string;
-  uuid: string;
-  role: string;
-}
 
-interface FormattedData {
-  id: number;
-  name: string;
-  result: string;
-  createdAt: string; // Use a more descriptive name
-}
-
-const TableHistory: React.FC<TableHistoryProps> = ({ jwt, uuid, role }) => {
-  const [historyData, setHistoryData] = useState<FormattedData[]>([]);
+const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ jwt, uuid, role }) => {
+  const [historyData, setHistoryData] = useState<HistoryDataInterface[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         let response;
         if (role === "USER") {
-          response = await fetch(API_URL + 'measurements/user/' + uuid, {
-            headers: {
-              Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
-            },
-          });
+          response = await HistoryUserAPI(jwt, uuid);
         } else {
-          response = await fetch(API_URL + 'measurements', {
-            headers: {
-              Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
-            },
-          });
+          response = await HistoryAPI(jwt); 
         }
-  
-        if (!response.ok) {
-          throw new Error('Failed to fetch user profile data');
-        }
-        const data = await response.json();
 
-        const formattedData: FormattedData[] = data.map((obj: any) => ({
+
+        const formattedData: HistoryDataInterface[] = response.map((obj: any) => ({
           id: obj.id,
           name: obj.user.name,
           result: obj.result,
@@ -49,7 +26,6 @@ const TableHistory: React.FC<TableHistoryProps> = ({ jwt, uuid, role }) => {
             timeZone: 'Asia/Jakarta', // WIB timezone
           })
         }));
-
 
         setHistoryData(formattedData);
       } catch (error) {

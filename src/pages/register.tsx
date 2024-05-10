@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
-import { API_URL } from '../constant';
 import { useNavigate } from 'react-router-dom';
 import ToastWarning from '../components/toast/warning';
 import ToastSuccess from '../components/toast/success';
 import { useState } from 'react';
+import { RegisterAPI } from '../api/register';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -14,26 +14,13 @@ const Register = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch(API_URL + "auth/register", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-  
-      if (response.ok) {
-        setMessageToastSuccess("Pendaftaran Sukses");
-        setTimeout(() => {
-          setMessageToastSuccess("");
-          navigate('/login');
-        }, 2000);
-      } else {
-        setMessageToastWarning("Pendaftaran Gagal");
-        setTimeout(() => {
-          setMessageToastWarning("");
-        }, 2000);
-      }
+      await RegisterAPI(data);
+      setMessageToastSuccess("Pendaftaran Sukses");
+      setTimeout(() => {
+        setMessageToastSuccess("");
+        navigate('/login');
+      }, 2000);
+
     } catch (error) {
       setMessageToastWarning("Pendaftaran Gagal");
         setTimeout(() => {

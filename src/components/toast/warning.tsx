@@ -1,10 +1,7 @@
 import React from 'react';
+import ToastInterface from '../../types/toast';
 
-interface ToastProps {
-  message: string;
-}
-
-const ToastWarning: React.FC<ToastProps> = ({ message }) => {
+const ToastWarning: React.FC<ToastInterface> = ({ message }) => {
   const dismissToast = () => {
     const toast = document.getElementById('toast-warning');
     if (toast) {

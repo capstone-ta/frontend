@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { API_URL } from '../constant';
 import { useNavigate } from 'react-router-dom';
 import ToastWarning from '../components/toast/warning';
 import ToastSuccess from '../components/toast/success';
 import { useState, useContext } from 'react';
-import {RoleContext} from '../role_provider';
-import JWTProvider from '../jwt_provider';
+import { RoleContext } from '../utils/roleProvider';
+import AuthProvider from '../utils/authProvider';
+import { LoginAPI } from '../api/login';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -13,37 +13,20 @@ const Login = () => {
   const [messageToastSuccess, setMessageToastSuccess] = useState("");
   const { setRole } = useContext(RoleContext);
 
-
   const navigate = useNavigate();
-  const jwtProvider = JWTProvider()
+  const authProvider = AuthProvider()
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch(API_URL + "auth/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-  
-      if (response.ok) {
-        const responseJson = await response.json()
-        setMessageToastSuccess("Login Sukses");
-        jwtProvider.setJwt(responseJson.access_token)
-        jwtProvider.setUUID(responseJson.id)
-        setRole(responseJson.role)
-        setTimeout(() => {
-          setMessageToastSuccess("");
-          navigate('/dashboard');
-        }, 2000);
-        
-      } else {
-        setMessageToastWarning("Login Gagal");
-        setTimeout(() => {
-          setMessageToastWarning("");
-        }, 2000);
-      }
+      const response = await LoginAPI(data);
+      setMessageToastSuccess("Login Sukses");
+      authProvider.setJwt(response.access_token)
+      authProvider.setUUID(response.id)
+      setRole(response.role)
+      setTimeout(() => {
+        setMessageToastSuccess("");
+        navigate('/dashboard');
+      }, 2000);
     } catch (error) {
       setMessageToastWarning("Login Gagal");
         setTimeout(() => {

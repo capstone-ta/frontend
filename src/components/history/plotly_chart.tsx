@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Plot from "react-plotly.js";
+import { PlotlyChartAPI } from '../../api/plotlyChart';
 
-
-interface GraphProps {
-  filePath: string;
-}
-
-const Plotly: React.FC<GraphProps> = ({ filePath }) => {
+const Plotly: React.FC<{filePath: string}> = ({ filePath }) => {
   const [dataPengukuranAsli, setDataPengukuranAsli] = useState<number[][]>([]);
   const [dataBaseline1, setDataBaseline1] = useState<number[][]>([]);
   const [dataBaseline2, setDataBaseline2] = useState<number[][]>([]);
@@ -16,48 +12,15 @@ const Plotly: React.FC<GraphProps> = ({ filePath }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch(filePath)
-      .then(response => response.json())
-      .then(data => {
-            setDataPengukuranAsli([data.voltage, data.current]);
-          if (data.baseline != null) {
-
-            let xValues = data.baseline.map(([x, _]: [number, unknown]) => x); // Extract x values
-            let yValues = data.baseline.map(([_, y]: [unknown, number]) => y); // Extract y values
-
-            setDataBaseline1([xValues, yValues]);
-
-            xValues = [data.info.v, data.info.v];
-            yValues = [data.info.c, data.info.b[1]];
-
-            setDataPuncak1([xValues, yValues]);
-              
-          } else {
-            setIsCV(true)
-            let xValues = data.baseline_oxidation.map(([x, _]: [number, unknown]) => x); // Extract x values
-            let yValues = data.baseline_oxidation.map(([_, y]: [unknown, number]) => y); // Extract y values
-            
-            setDataBaseline1([xValues, yValues]);
-
-            xValues = data.baseline_reduction.map(([x , _]: [number, unknown]) => x); // Extract x values
-            yValues = data.baseline_reduction.map(([_, y] : [unknown, number]) => y); // Extract y values
-            
-            setDataBaseline2([xValues, yValues]);
-
-            xValues = [data.info.oxidation.v, data.info.oxidation.v];
-            yValues = [data.info.oxidation.c, data.info.oxidation.b];
-
-            setDataPuncak1([xValues, yValues]);
-
-            xValues = [data.info.reduction.v, data.info.reduction.v];
-            yValues = [data.info.reduction.c, data.info.reduction.b];
-
-            setDataPuncak2([xValues, yValues]);
-          }
-      }).catch(error => console.log(error));
+      await PlotlyChartAPI(filePath).then((result: any) => {
+        setDataPengukuranAsli(result[0]);
+        setDataBaseline1(result[1]);
+        setDataBaseline2(result[2]);
+        setDataPuncak1(result[3]);
+        setDataPuncak2(result[4]);
+        setIsCV(result[5]);
+      })
     } 
-
-
     fetchData();
   }, []);
 

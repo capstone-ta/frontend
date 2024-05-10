@@ -2,31 +2,20 @@ import Sidebar from "../../components/sidebar"
 import Navbar from "../../components/navbar"
 import Footer from "../../components/footer"
 import { useEffect } from "react"
-import { useContext } from "react"
-import { RoleContext } from "../../role_provider"
 import { useNavigate } from 'react-router-dom';
-import JWTProvider from "../../jwt_provider"
+import AuthProvider from "../../utils/authProvider"
 
 const Dashboard = () => {
-    const { role, setRole } = useContext(RoleContext);
     const navigate = useNavigate();
-    const jwtProvider = JWTProvider()
+    const authProvider = AuthProvider()
 
-    useEffect(() => {
-        
-        if (jwtProvider.getJwt() === null) {
-          navigate('/login');
-        }
-        if (role === null) {
-            jwtProvider.getRole().then((res) => {
-                if (res != null) {
-                    setRole(res!);
-                } else {
-                    navigate('/login');
-                }
-            })
-        }
-      }, [jwtProvider.jwt]);
+    useEffect(() =>  {
+        authProvider.checkCredential().then((role) => {
+            if (role === null) {
+                navigate('/login');
+            }
+        })
+      }, []);
  
     return (
         <div>

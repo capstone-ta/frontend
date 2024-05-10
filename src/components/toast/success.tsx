@@ -1,10 +1,7 @@
 import React from 'react';
+import ToastInterface from '../../types/toast';
 
-interface ToastProps {
-  message: string;
-}
-
-const ToastSuccess: React.FC<ToastProps> = ({ message }) => {
+const ToastSuccess: React.FC<ToastInterface> = ({ message }) => {
   return (
     <div
       id="toast-success"

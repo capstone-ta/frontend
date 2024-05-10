@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { ChartJsAPI } from '../../api/chartjsChart';
 
 ChartJS.register(
   CategoryScale,
@@ -43,17 +44,16 @@ const GraphChart2: React.FC<GraphProps> = ({filePath}) => {
   const [data, setData] = useState<string[]>([]);
   const [data2, setData2] = useState<string[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
+  
 
     useEffect(() => {
         const fetchData = async () => {
-           await fetch(filePath)
-          .then(response => response.json())
-          .then(data => {
-              setData(data.current)
-              setLabels(data.voltage)
-               const y_baseline = data.baseline.map((row: any) => row[1]);
-                setData2(y_baseline);
-          }).catch(error => console.log(error));
+           await ChartJsAPI(filePath).then((result: any) => {
+            console.log(result)
+            setData(result[0]);
+            setData2(result[1]);
+            setLabels(result[2]);
+           });
 
         } 
         fetchData();

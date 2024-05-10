@@ -6,77 +6,40 @@ import GraphNivo from './graph_nivo';
 import Plotly from './plotly_chart';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { RoleContext } from '../../role_provider';
-import JWTProvider from '../../jwt_provider';
-import { API_URL } from '../../constant';
-
-interface FormattedData {
-    id: number;
-    name: string;
-    result: string;
-    email: string;
-    createdAt: string; // Use a more descriptive name
-    filePath: string;
-  }
+import AuthProvider from '../../utils/authProvider';
+import DetailHistoryDataInterface from '../../types/detailHistory';
+import { DetailHistoryAPI } from '../../api/detailHistory';
 
 
 const DetailHistory:  React.FC = () => {
-    const { role, setRole } = useContext(RoleContext);
     const navigate = useNavigate();
-    const jwtProvider = JWTProvider()
-    const [detailData, setDetailData] = useState<FormattedData | null>(null);
+    const authProvider = AuthProvider()
+    const [detailData, setDetailData] = useState<DetailHistoryDataInterface | null>(null);
     const { id } = useParams(); 
 
     useEffect(() => {
-        if (jwtProvider.getJwt() === null) {
-          navigate('/login');
-        }
-        if (role === null) {
-            jwtProvider.getRole().then((res) => {
-                if (res != null) {
-                    setRole(res!);
-                    if (res === "USER") {
-                        navigate('/dashboard/history');
-                    }
-                } else {
-                    navigate('/login');
-                }
-            })
-        };
+      authProvider.checkCredential().then((role) => {
+          if (role === null) {
+              navigate('/login');
+          }
+          if (role === "USER") {
+            navigate('/dashboard/history');
+          }
+      })
 
         const fetchData = async () => {
             try {
-              console.log("MAEKKKKK")
-              const response = await fetch(API_URL + 'measurements/' + id, {
-                headers: {
-                  Authorization: `Bearer ${jwtProvider.getJwt()}`, // Include JWT token in authorization header
-                },
-              });
+              if (id === undefined) navigate('/dashboard/history');
+              const response = await DetailHistoryAPI(authProvider.getJwt()!, id!);
               
-              if (!response.ok) {
+              if (response === null) {
                 navigate('/dashboard/history');
-                
               }
-              const data = await response.json();
-              const formattedData: FormattedData = {
-                id: data.id,
-                name: data.user.name,
-                result: data.result,
-                email: data.user.email,
-                createdAt:  new Date(data.config.created_at).toLocaleDateString('id-ID', {
-                  timeZone: 'Asia/Jakarta', // WIB timezone
-                }),
-                filePath: data.analysis
-              }
-
-              console.log(data)
-              setDetailData(formattedData);
+              setDetailData(response);
             } catch (error) {
               console.error('Error fetching data:', error);
             }
           };
-      
           fetchData();
       }, []);
 

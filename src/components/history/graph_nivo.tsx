@@ -1,19 +1,6 @@
-// install (please try to align the version of installed @nivo packages)
-// yarn add @nivo/line
 import { ResponsiveLine } from '@nivo/line'
 import React, { useState, useEffect } from 'react';
-
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-
-
-interface DataPoint {
-    x: number;
-    y: number;
-  }
+import { NivoChartAPI } from '../../api/nivoChart';
 
 
 interface GraphProps {
@@ -22,91 +9,24 @@ interface GraphProps {
   
 
 const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
-    const [data, setData] = useState<DataPoint[]>([]);
-    const [data2, setData2] = useState<DataPoint[]>([]);
-    const [data3, setData3] = useState<DataPoint[]>([]);
-    const [data4, setData4] = useState<DataPoint[]>([]);
-    const [data5, setData5] = useState<DataPoint[]>([]);
-    const [isCV, setIsCV] = useState<Boolean>(false);
+  const [dataPengukuranAsli, setDataPengukuranAsli] = useState<number[][]>([]);
+  const [dataBaseline1, setDataBaseline1] = useState<number[][]>([]);
+  const [dataBaseline2, setDataBaseline2] = useState<number[][]>([]);
+  const [dataPuncak1, setDataPuncak1] = useState<number[][]>([]);
+  const [dataPuncak2, setDataPuncak2] = useState<number[][]>([]);
+  const [isCV, setIsCV] = useState<Boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
-          await fetch(filePath)
-          .then(response => response.json())
-          .then(data => {
-              let mappedArray = data.current.map((xValue: string, index: string) => {
-                  // Check if array lengths are equal to avoid out-of-bounds access
-                  if (index >= data.voltage.length) {
-                    throw new Error('Arrays have different lengths');
-                  }
-                
-                  return { y: xValue, x: data.voltage[index] };
-                });
-                setData(mappedArray);
-                if (data.baseline != null) {
-                  console.log("MARKKKK")
-                    mappedArray = data.baseline.map((coordinatePair: [string, string]) => {
-                      return {
-                        x: coordinatePair[0],
-                        y: coordinatePair[1],
-                      };
-                    });
-                    
-                    setData2(mappedArray);
-
-                    mappedArray = [{
-                      x: data.info.v,
-                      y: data.info.c
-                    }, {
-                      x: data.info.v,
-                      y: data.info.b[1]
-                    }]
-  
-                    setData4(mappedArray)
-                } else {
-                  setIsCV(true)
-                  mappedArray = data.baseline_oxidation.map((coordinatePair: [string, string]) => {
-                    return {
-                      x: coordinatePair[0],
-                      y: coordinatePair[1],
-                    };
-                  });
-                  
-                  setData2(mappedArray);
-
-                  mappedArray = data.baseline_reduction.map((coordinatePair: [string, string]) => {
-                    return {
-                      x: coordinatePair[0],
-                      y: coordinatePair[1],
-                    };
-                  });
-              
-                  setData3(mappedArray);
-
-                  mappedArray = [{
-                    x: data.info.oxidation.v,
-                    y: data.info.oxidation.c
-                  }, {
-                    x: data.info.oxidation.v,
-                    y: data.info.oxidation.b
-                  }]
-
-                  setData4(mappedArray)
-
-                  mappedArray = [{
-                    x: data.info.reduction.v,
-                    y: data.info.reduction.c
-                  }, {
-                    x: data.info.reduction.v,
-                    y: data.info.reduction.b
-                  }]
-
-                  setData5(mappedArray)
-                }
-                
-          }).catch(error => console.log(error));
+          await NivoChartAPI(filePath).then((result: any) => {
+            setDataPengukuranAsli(result[0]);
+            setDataBaseline1(result[1]);
+            setDataBaseline2(result[2]);
+            setDataPuncak1(result[3]);
+            setDataPuncak2(result[4]);
+            setIsCV(result[5]);
+          });
         } 
-    
     
         fetchData();
       }, []);
@@ -114,12 +34,12 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
         {
           "id": "sebelum correction",
           "color": "hsl(47, 70%, 50%)",
-          "data": data
+          "data": dataPengukuranAsli
         },
         {
           "id": isCV ? "setelah correction oksidasi" : "setelah correction" ,
           "color": "hsl(187, 70%, 50%)",
-          "data": data2
+          "data": dataBaseline1
         }
       ]
     
@@ -127,23 +47,23 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
       data_graph.push({
         "id": "setelah correction reduksi",
         "color": "hsl(187, 70%, 50%)",
-        "data": data3
+        "data": dataBaseline2
       })
       data_graph.push({
         "id": "puncak oxidation",
         "color": "hsl(187, 70%, 50%)",
-        "data": data4
+        "data": dataPuncak1
       })
       data_graph.push({
         "id": "puncak reduction",
         "color": "hsl(187, 70%, 50%)",
-        "data": data5
+        "data": dataPuncak2
       })
     } else {
       data_graph.push({
         "id": "puncak DPV",
         "color": "hsl(187, 70%, 50%)",
-        "data": data4
+        "data": dataPuncak1
       })
     }
     return(

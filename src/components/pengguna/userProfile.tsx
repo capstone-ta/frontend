@@ -1,38 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../constant';
+import { UserProfileAPI } from '../../api/userProfile';
+import UserProfileInterface from '../../types/userProfile';
 
-interface UserProfileProps {
-  jwt: string;
-  uuid: string;
-}
-
-const UserProfile: React.FC<UserProfileProps> = ({ jwt, uuid }) => {
+const UserProfile: React.FC<UserProfileInterface> = ({ jwt, uuid }) => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch user profile data
   const fetchUserProfile = async () => {
     setIsLoading(true);
-    setError(null); // Clear previous error
+    setError(null); 
 
     try {
-      const response = await fetch(API_URL + 'users/' + uuid, {
-        headers: {
-          Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch user profile data');
-      }
-
-      const data = await response.json();
+      const data = await UserProfileAPI(jwt, uuid);
       setName(data.name);
       setEmail(data.email);
     } catch (error) {
-     
+      setError('Gagal memuat data profil pengguna');
     } finally {
       setIsLoading(false);
     }
