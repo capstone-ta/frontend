@@ -61,11 +61,21 @@ export const ChartJsAPI = async (filePath: string) => {
             result.push(mappedArray);
             result.push(true);
         } else {
-            result.push(data.voltage);
+            result.push(data.current);
             result.push([])
             const y_baseline = data.baseline.map((row: any) => row[1]);
             result.push(y_baseline);
             result.push([])
+            let mappedArray = [[
+                data.info.v,
+                data.info.c
+            ], [
+                data.info.v,
+                data.info.b[1]
+            ]]
+            result.push(mappedArray)
+            result.push([])
+            result.push(false);
         }
     }).catch(error => console.log(error));
     return result;

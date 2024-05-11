@@ -66,6 +66,7 @@ const GraphChart2: React.FC<GraphProps> = ({filePath}) => {
     useEffect(() => {
         const fetchData = async () => {
            await ChartJsAPI(filePath).then((result: any) => {
+            console.log(result)
             setLabels(result[0])
             setDataPengukuranAsliOxidation(result[1])
             setDataPengukuranAsliReduction(result[2])
