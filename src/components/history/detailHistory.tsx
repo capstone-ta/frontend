@@ -77,10 +77,10 @@ const DetailHistory:  React.FC = () => {
         <div className="flex-grow bg-white">
             <Tab.Group>
             <Tab.List className="flex flex-row border-b border-gray-200">
-                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">Tab 1</Tab>
-                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">Tab 2</Tab>
-                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">Tab 3</Tab>
-                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">Tab 4</Tab>
+                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">Rechart</Tab>
+                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">React Chart Js</Tab>
+                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">Nivo</Tab>
+                <Tab className="w-1/4 text-center p-4 text-gray-500 text-base font-normal rounded-lg items-center p-2 group hover:bg-gray-100 focus:bg-indigo-500 focus:text-gray-100">Plotly</Tab>
             </Tab.List>
 
             <Tab.Panels>

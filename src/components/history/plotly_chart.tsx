@@ -8,6 +8,8 @@ const Plotly: React.FC<{filePath: string}> = ({ filePath }) => {
   const [dataBaseline2, setDataBaseline2] = useState<number[][]>([]);
   const [dataPuncak1, setDataPuncak1] = useState<number[][]>([]);
   const [dataPuncak2, setDataPuncak2] = useState<number[][]>([]);
+  const [puncak1, setPuncak1] = useState<number>(0);
+  const [puncak2, setPuncak2] = useState<number>(0);
   const [isCV, setIsCV] = useState<Boolean>(false);
 
   useEffect(() => {
@@ -18,13 +20,15 @@ const Plotly: React.FC<{filePath: string}> = ({ filePath }) => {
         setDataBaseline2(result[2]);
         setDataPuncak1(result[3]);
         setDataPuncak2(result[4]);
+        console.log(result)
         setIsCV(result[5]);
+        setPuncak1(result[3][1][0] - result[3][1][1])
+        setPuncak2(result[4][1][0] - result[4][1][1])
       })
     } 
     fetchData();
   }, []);
 
-  console.log(dataPengukuranAsli[0])
 
   return (
     <div>
@@ -81,6 +85,30 @@ const Plotly: React.FC<{filePath: string}> = ({ filePath }) => {
             y: dataPuncak2[1], // Wrap the number in an array
             mode: 'lines',
             name: 'Puncak - reduksi',
+            line: {
+              dash: 'dashdot',
+              color: 'rgb(128, 0, 128)',
+              width: 1
+            }
+          } : {},
+          isCV ? {
+            type: 'scatter',
+            x: [dataPuncak1[0][0]], // Wrap the number in an array
+            y: [dataPuncak1[1][0] / 2], // Wrap the number in an array
+            mode: 'text',
+            text: puncak1.toString(),
+            line: {
+              dash: 'dashdot',
+              color: 'rgb(128, 0, 128)',
+              width: 1
+            }
+          } : {},
+          isCV ? {
+            type: 'scatter',
+            x: [dataPuncak2[0][0]], // Wrap the number in an array
+            y: [dataPuncak2[1][0] / 2], // Wrap the number in an array
+            mode: 'text',
+            text: puncak2.toString(),
             line: {
               dash: 'dashdot',
               color: 'rgb(128, 0, 128)',

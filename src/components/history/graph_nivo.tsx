@@ -6,25 +6,30 @@ import { NivoChartAPI } from '../../api/nivoChart';
 interface GraphProps {
     filePath: string;
   }
-  
+
 
 const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
   const [dataPengukuranAsli, setDataPengukuranAsli] = useState<number[][]>([]);
   const [dataBaseline1, setDataBaseline1] = useState<number[][]>([]);
   const [dataBaseline2, setDataBaseline2] = useState<number[][]>([]);
-  const [dataPuncak1, setDataPuncak1] = useState<number[][]>([]);
-  const [dataPuncak2, setDataPuncak2] = useState<number[][]>([]);
+  const [dataPuncak1, setDataPuncak1] = useState<any[][]>([]);
+  const [dataPuncak2, setDataPuncak2] = useState<any[][]>([]);
+  const [puncak1, setPuncak1] = useState<number>(0);
+  const [puncak2, setPuncak2] = useState<number>(0);
   const [isCV, setIsCV] = useState<Boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
           await NivoChartAPI(filePath).then((result: any) => {
+            console.log(result)
             setDataPengukuranAsli(result[0]);
             setDataBaseline1(result[1]);
             setDataBaseline2(result[2]);
             setDataPuncak1(result[3]);
             setDataPuncak2(result[4]);
             setIsCV(result[5]);
+            setPuncak1(result[3][0].y - result[3][1].y);
+            setPuncak2(result[4][0].y - result[4][1].y);
           });
         } 
     
@@ -50,18 +55,19 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
         "data": dataBaseline2
       })
       data_graph.push({
-        "id": "puncak oxidation",
+        "id": "puncak oxidation (" + (puncak1).toString() + ")",
         "color": "hsl(187, 70%, 50%)",
         "data": dataPuncak1
       })
       data_graph.push({
-        "id": "puncak reduction",
+        "id": "puncak reduction (" + (puncak2).toString() + ")",
         "color": "hsl(187, 70%, 50%)",
-        "data": dataPuncak2
+        "data": dataPuncak2,
+        
       })
     } else {
       data_graph.push({
-        "id": "puncak DPV",
+        "id": "puncak (" + (puncak1).toString() + ")",
         "color": "hsl(187, 70%, 50%)",
         "data": dataPuncak1
       })
@@ -70,7 +76,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
         <div className='h-96'>
           <ResponsiveLine
             data={data_graph}
-            margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+            margin={{ top: 50, right: 100, bottom: 50, left: 60 }}
             xScale={{ 
                 type: 'linear',
                 min: 'auto',
@@ -116,7 +122,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
                 anchor: 'bottom-right',
                 direction: 'column',
                 justify: false,
-                translateX: 100,
+                translateX: -100,
                 translateY: 0,
                 itemsSpacing: 0,
                 itemDirection: 'left-to-right',

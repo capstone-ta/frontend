@@ -29,3 +29,17 @@ export const HistoryAPI = async (jwt: string) => {
     const data = await response.json();
     return data
 }
+
+export const HistoryDeleteAPI = async (jwt: string, id: string) => {
+    const response = await fetch(API_URL + 'measurements/' + id, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${jwt}`, // Include JWT token in authorization header
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to delete data');
+    }
+    return true
+}

@@ -1,40 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HistoryAPI, HistoryUserAPI } from '../../api/history';
+import { HistoryAPI, HistoryUserAPI, HistoryDeleteAPI } from '../../api/history';
 import HistoryDataInterface from '../../types/history';
 
 
 const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ jwt, uuid, role }) => {
   const [historyData, setHistoryData] = useState<HistoryDataInterface[]>([]);
+  const fetchData = async () => {
+    try {
+      let response;
+      if (role === "USER") {
+        response = await HistoryUserAPI(jwt, uuid);
+      } else {
+        response = await HistoryAPI(jwt); 
+      }
+
+
+      const formattedData: HistoryDataInterface[] = response.map((obj: any) => ({
+        id: obj.id,
+        name: obj.user.name,
+        result: obj.result,
+        createdAt:  new Date(obj.config.created_at).toLocaleDateString('id-ID', {
+          timeZone: 'Asia/Jakarta', // WIB timezone
+        })
+      }));
+
+      setHistoryData(formattedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let response;
-        if (role === "USER") {
-          response = await HistoryUserAPI(jwt, uuid);
-        } else {
-          response = await HistoryAPI(jwt); 
-        }
-
-
-        const formattedData: HistoryDataInterface[] = response.map((obj: any) => ({
-          id: obj.id,
-          name: obj.user.name,
-          result: obj.result,
-          createdAt:  new Date(obj.config.created_at).toLocaleDateString('id-ID', {
-            timeZone: 'Asia/Jakarta', // WIB timezone
-          })
-        }));
-
-        setHistoryData(formattedData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+    
 
     fetchData();
   }, []);
+
+  const handleDeleteData = async (id: number) => {
+    try {
+      await HistoryDeleteAPI(jwt, id.toString());
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  }
 
   return (
     <div className="overflow-x-auto m-10">
@@ -56,6 +66,9 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Test Result
             </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Delete Data
+            </th>
             {role && role != "USER" && (
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Link
@@ -72,6 +85,11 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.createdAt}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.name}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.result && historyItem.result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <button onClick={() => handleDeleteData(historyItem.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                  Hapus
+                </button>
+              </td>
               {role && role != "USER" && (
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <Link to={"/dashboard/history/" + historyItem.id} className="text-blue-500 hover:underline">

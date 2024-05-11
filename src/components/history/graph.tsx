@@ -9,6 +9,7 @@ const Graph: React.FC<{filePath: string}> = ({ filePath }) => {
   const [dataBaseline2, setDataBaseline2] = useState<ChartDataPoint[]>([]);
   const [dataPuncak1, setDataPuncak1] = useState<ChartDataPoint[]>([]);
   const [dataPuncak2, setDataPuncak2] = useState<ChartDataPoint[]>([]);
+  const [puncak1, setPuncak1] = useState<number>(0);
   const [isCV, setIsCV] = useState<Boolean>(false);
 
   useEffect(() => {
@@ -20,6 +21,8 @@ const Graph: React.FC<{filePath: string}> = ({ filePath }) => {
         setDataPuncak1(result[3]);
         setDataPuncak2(result[4]);
         setIsCV(result[5]);
+        setPuncak1(result[3][0].y - result[3][1].y)
+        console.log(result[3])
       });
     } 
 
@@ -42,8 +45,8 @@ const Graph: React.FC<{filePath: string}> = ({ filePath }) => {
       <Line name="pengukuran" data={dataPengukuranAsli} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} dot={false}/>
       <Line name={isCV ? "baseline correction - oksidasi" : "baseline correction"} data={dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} />
       {isCV ? <Line name="baseline correction - reduksi" data={dataBaseline2} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} /> : null}
-      <ReferenceLine label={isCV ? "puncak - oksidasi" : "puncak"} stroke="green" strokeDasharray="3 3" segment={dataPuncak1} />
-      {isCV ? <ReferenceLine label="puncak - reduksi" stroke="green" strokeDasharray="3 3" segment={dataPuncak2} /> : null}
+      <ReferenceLine label={puncak1} stroke="green" strokeDasharray="3 3" segment={dataPuncak1} />
+      {isCV ? <ReferenceLine label={dataPuncak2[0].y - dataPuncak2[1].y} stroke="green" strokeDasharray="3 3" segment={dataPuncak2} /> : null}
     </LineChart>
   );
 };
