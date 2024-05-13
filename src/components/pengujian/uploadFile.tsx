@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { API_URL } from '../../constant';
 import ToastSuccess from '../toast/success';
 import ToastWarning from '../toast/warning';
 import { PengujianPostPengukuranAPI, PengujianPostAnalisisAPI } from '../../api/pengujian';
