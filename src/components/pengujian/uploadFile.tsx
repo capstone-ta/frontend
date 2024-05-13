@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { API_URL } from '../../constant';
 import ToastSuccess from '../toast/success';
 import ToastWarning from '../toast/warning';
+import { PengujianPostPengukuranAPI, PengujianPostAnalisisAPI } from '../../api/pengujian';
 
 
 const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
@@ -36,39 +37,32 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
     formData.append('description', description);
    
     try {
-      let response = await fetch(API_URL + 'measurements', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${jwt}`
-        },
-        body: formData,
-      });
+      let response = await PengujianPostPengukuranAPI(jwt, formData);
 
-      setMessageToastSuccess("Berhasil mengunggah file, sedang menganalisis");
+      if (response != null) {
+        setMessageToastSuccess("Berhasil mengunggah file, sedang menganalisis");
 
-      let data = await response.json();
-
-      let id = data.id;
-      
-      response = await fetch(API_URL + 'measurements/' + id + "/analyze", {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${jwt}`
-        },
-        body: JSON.stringify({"id": id})
-      });
-
-      data = await response.json();
-      setResult(data.result);
-
-      setMessageToastSuccess("Berhasil menganalisis file");
-      setTimeout(() => {
-        setMessageToastSuccess("");
-      }, 2000);
+        let id = response.id;
+        
+        response = await PengujianPostAnalisisAPI(jwt, id);
+        if (response == null) {
+          setMessageToastSuccess("");
+          setMessageToastWarning("Gagal menganalisis file");
+        } else {
+          setMessageToastSuccess("Berhasil menganalisis file");
+          setResult(response.result);
+        }
+      } else {
+        setMessageToastWarning("Gagal mengunggah file");
+      }
     } catch (error) {
       setMessageToastWarning("Gagal mengunggah file");
     } finally {
       setIsLoading(false);
+      setTimeout(() => {
+        setMessageToastSuccess("");
+        setMessageToastWarning("");
+      }, 2000);
     }
   };
 

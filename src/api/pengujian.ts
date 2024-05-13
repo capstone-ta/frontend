@@ -9,8 +9,12 @@ export const PengujianPostPengukuranAPI = async (jwt: string, formData: any) => 
         body: formData,
       });
 
-      let data = await response.json();
-      return data;
+      if (response.ok) {
+        let data = await response.json();
+        return data;
+      } else {
+        return null;
+      }
 }
 
 export const PengujianPostAnalisisAPI = async (jwt: string, id: string) => {
@@ -22,6 +26,10 @@ export const PengujianPostAnalisisAPI = async (jwt: string, id: string) => {
         body: JSON.stringify({"id": id})
       });
 
-      let data = await response.json();
-      return data;
+      if (response.ok) {
+        let data = await response.json();
+        return data;
+      } else {
+        return null;
+      }
 }
