@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import { useNavigate } from 'react-router-dom';
 import AuthProvider from "../../utils/authProvider"
 
-const Pengguna = () => {
+const Profile = () => {
     const navigate = useNavigate();
     const authProvider = AuthProvider()
 
@@ -33,4 +33,4 @@ const Pengguna = () => {
     )
 }
 
-export default Pengguna
+export default Profile

@@ -7,7 +7,7 @@ import AuthProvider from "../../utils/authProvider"
 import UserConfigurationComponent from "../../components/konfigurasi/konfigurasiUser"
 
 
-const Konfigurasi = () => {
+const UserConfiguration = () => {
     const navigate = useNavigate();
     const authProvider = AuthProvider()
 
@@ -34,4 +34,4 @@ const Konfigurasi = () => {
     )
 }
 
-export default Konfigurasi
+export default UserConfiguration

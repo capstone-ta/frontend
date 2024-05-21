@@ -155,7 +155,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
       )}
       <button
         onClick={handleSubmit}
-        className="bg-indigo-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
+        className="bg-indigo-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4 mb-20"
         disabled={!file || isLoading}
       >
         {isLoading ? 'Loading...' : 'Upload'}

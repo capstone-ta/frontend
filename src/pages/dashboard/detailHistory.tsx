@@ -1,13 +1,13 @@
 import Sidebar from "../../components/sidebar"
 import Navbar from "../../components/navbar"
 import Footer from "../../components/footer"
-import DetailHistory from "../../components/history/detailHistory"
+import DetailHistoryComponent from "../../components/history/detailHistoryComponent"
 import { useEffect } from "react"
 import { useNavigate } from 'react-router-dom';
 import AuthProvider from "../../utils/authProvider"
 
 
-const Measurements = () => {
+const DetailHistory = () => {
     const navigate = useNavigate();
     const authProvider = AuthProvider()
 
@@ -16,7 +16,7 @@ const Measurements = () => {
             if (role === null) {
                 navigate('/login');
             } else if (role === "USER") {
-                navigate('/dashboard/history');
+                navigate('/dashboard/');
             }
         })
       }, [authProvider.jwt]);
@@ -28,7 +28,7 @@ const Measurements = () => {
             <Sidebar clicked="history"/>
             <div className="opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
                 <div id="main-content" className="h-full w-full relative overflow-y-auto lg:ml-64">
-                    <DetailHistory />
+                    <DetailHistoryComponent />
                 </div>
             </div>
             <Footer />
@@ -36,4 +36,4 @@ const Measurements = () => {
     )
 }
 
-export default Measurements
+export default DetailHistory

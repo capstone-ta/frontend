@@ -65,24 +65,25 @@ const GraphChart2: React.FC<GraphProps> = ({filePath}) => {
   
     useEffect(() => {
         const fetchData = async () => {
-           await ChartJsAPI(filePath).then((result: any) => {
-            console.log(result)
-            setLabels(result[0])
-            setDataPengukuranAsliOxidation(result[1])
-            setDataPengukuranAsliReduction(result[2])
-            setDataBaseline1(result[3])
-            setDataBaseline2(result[4])
-            setDataPuncak1(result[5])
-            setDataPuncak2(result[6])
-            setIsCV(result[7])
-            setPuncak1(result[5][0][1] - result[5][1][1]);
-            setPuncak2(result[6][0][1] - result[6][1][1]);
+           await ChartJsAPI(filePath).then( (result: any) => {
+             setLabels(result[0])
+             setDataPengukuranAsliOxidation(result[1])
+             setDataPengukuranAsliReduction(result[2])
+             setDataBaseline1(result[3])
+             setDataBaseline2(result[4])
+             setDataPuncak1(result[5])
+             setDataPuncak2(result[6])
+             setIsCV(result[7])
+             setPuncak1(result[5][0][1] - result[5][1][1]);
+             setPuncak2(result[6][0][1] - result[6][1][1]);
             
            });
+           
 
         } 
         fetchData();
       }, []);
+  
       let data_graph = {
         labels,
         datasets: [
@@ -159,12 +160,13 @@ const GraphChart2: React.FC<GraphProps> = ({filePath}) => {
         };  
       }
       
-
   return (
     <div>
-      <Line data={data_graph} options={options} />
+      <div>
+        <Line data={data_graph} options={options} />
+      </div>
     </div>
-  );
+  )
 };
 
 export default GraphChart2;

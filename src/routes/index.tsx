@@ -3,11 +3,11 @@ import Home from '../pages/index';
 import Login from '../pages/login';
 import Register from '../pages/register';
 import Dashboard from '../pages/dashboard/index';
-import Pengujian from '../pages/dashboard/pengujian';
-import Konfigurasi from '../pages/dashboard/konfigurasi';
-import Pengguna from '../pages/dashboard/pengguna';
+import Analysis from '../pages/dashboard/analysis';
+import UserConfiguration from '../pages/dashboard/userConfiguration';
+import Profile from '../pages/dashboard/profile';
 import History from '../pages/dashboard/history';
-import Measurements from '../pages/dashboard/measurement';
+import DetailHistory from '../pages/dashboard/detailHistory';
 import "../index.css"
 
 
@@ -19,12 +19,11 @@ function App() {
           <Route path="/" element={ <Home/> } />
           <Route path="login" element={ <Login/> } />
           <Route path="register" element={ <Register/> } />
-          <Route path="/dashboard/" element={ <Dashboard/> } />
-          <Route path="/dashboard/pengujian" element={ <Pengujian/> } />
-          <Route path="/dashboard/konfigurasi" element={ <Konfigurasi/> } />
-          <Route path="/dashboard/user" element={ <Pengguna/> } />
-          <Route path="/dashboard/history" element={ <History/> } />
-          <Route path="/dashboard/history/:id" element={ <Measurements/> } />
+          <Route path="/dashboard/" element={ <History/> } />
+          <Route path="/dashboard/analysis" element={ <Analysis/> } />
+          <Route path="/dashboard/user-configuration" element={ <UserConfiguration/> } />
+          <Route path="/dashboard/profile" element={ <Profile/> } />
+          <Route path="/dashboard/history/:id" element={ <DetailHistory/> } />
         </Routes>
       </BrowserRouter>
     </div>

@@ -11,7 +11,7 @@ import DetailHistoryDataInterface from '../../types/detailHistory';
 import { DetailHistoryAPI } from '../../api/detailHistory';
 
 
-const DetailHistory:  React.FC = () => {
+const DetailHistoryComponent:  React.FC = () => {
     const navigate = useNavigate();
     const authProvider = AuthProvider()
     const [detailData, setDetailData] = useState<DetailHistoryDataInterface | null>(null);
@@ -29,11 +29,11 @@ const DetailHistory:  React.FC = () => {
 
         const fetchData = async () => {
             try {
-              if (id === undefined) navigate('/dashboard/history');
+              if (id === undefined) navigate('/dashboard/');
               const response = await DetailHistoryAPI(authProvider.getJwt()!, id!);
               
               if (response === null) {
-                navigate('/dashboard/history');
+                navigate('/dashboard/');
               }
               setDetailData(response);
             } catch (error) {
@@ -45,7 +45,7 @@ const DetailHistory:  React.FC = () => {
 
     return (
         <div className="flex flex-col h-screen">
-            <Link to="/dashboard/history" className="absolute top-left inline-flex items-center space-x-2 hover:border-indigo-500 hover:rounded-full border-2 border-transparent p-2 my-10 ml-10">
+            <Link to="/dashboard/" className="absolute top-left inline-flex items-center space-x-2 hover:border-indigo-500 hover:rounded-full border-2 border-transparent p-2 my-10 ml-10">
                     <svg fill="#000000" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 476.213 476.213">
                     <polygon points="476.213,223.107 57.427,223.107 151.82,128.713 130.607,107.5 0,238.106 130.607,368.714 151.82,347.5 
@@ -95,4 +95,4 @@ const DetailHistory:  React.FC = () => {
   );
 };
 
-export default DetailHistory;
+export default DetailHistoryComponent;
