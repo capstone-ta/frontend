@@ -27,11 +27,11 @@ const Home: React.FC = () => {
         <div className="flex flex-col justify-center col-span-1 text-center lg:text-start">
           <div className="flex items-center justify-center mb-4 lg:justify-normal">
             <img className="h-5" src="https://dti.itb.ac.id/wp-content/uploads/2020/09/logo_itb_1024.png" alt="logo" />
-            <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Nama product</h4>
+            <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Institut Teknologi Bandung</h4>
           </div>
-          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900">Deskripsi singkat</h1>
+          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900">Website Reader Sensor</h1>
           <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-900">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam earum necessitatibus soluta id ducimus beatae, quidem ipsam, aliquid voluptates, incidunt quia? Possimus repudiandae laborum incidunt eius consectetur? Debitis, consectetur in!
+            Website untuk membantu deteksi dini penyakit jantung berbasis analisis data sensor.
           </p>
           <div className="items-center">
             <a href="/login"><button className="items-center py-4 text-sm font-bold text-gray-100 px-7 bg-indigo-500  hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 rounded-xl"><a href="/login">Masuk</a></button></a>
