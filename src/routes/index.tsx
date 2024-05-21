@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../pages/index';
 import Login from '../pages/login';
 import Register from '../pages/register';
-import Dashboard from '../pages/dashboard/index';
 import Analysis from '../pages/dashboard/analysis';
 import UserConfiguration from '../pages/dashboard/userConfiguration';
 import Profile from '../pages/dashboard/profile';
