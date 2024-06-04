@@ -4,33 +4,73 @@ import { NivoChartAPI } from '../../api/nivoChart';
 
 
 interface GraphProps {
-    filePath: string;
+    filePath1: string;
+    filePath2: string;
   }
 
+interface GraphData {
+    dataPengukuranAsli: number[][];
+    dataBaseline1: number[][];
+    dataBaseline2: number[][];
+    dataPuncak1: any[][];
+    dataPuncak2: any[][];
+    puncak1: number;
+    puncak2: number;
+}
 
-const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
-  const [dataPengukuranAsli, setDataPengukuranAsli] = useState<number[][]>([]);
-  const [dataBaseline1, setDataBaseline1] = useState<number[][]>([]);
-  const [dataBaseline2, setDataBaseline2] = useState<number[][]>([]);
-  const [dataPuncak1, setDataPuncak1] = useState<any[][]>([]);
-  const [dataPuncak2, setDataPuncak2] = useState<any[][]>([]);
-  const [puncak1, setPuncak1] = useState<number>(0);
-  const [puncak2, setPuncak2] = useState<number>(0);
+
+const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
+  const [dataGraph1, setDataGraph1] = useState<GraphData>({
+    dataPengukuranAsli: [],
+    dataBaseline1: [],
+    dataBaseline2: [],
+    dataPuncak1: [],
+    dataPuncak2: [],
+    puncak1: 0,
+    puncak2: 0
+  });
+  const [dataGraph2, setDataGraph2] = useState<GraphData>({
+    dataPengukuranAsli: [],
+    dataBaseline1: [],
+    dataBaseline2: [],
+    dataPuncak1: [],
+    dataPuncak2: [],
+    puncak1: 0,
+    puncak2: 0
+  });
+
   const [isCV, setIsCV] = useState<Boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
-          await NivoChartAPI(filePath).then((result: any) => {
+          await NivoChartAPI(filePath1).then((result: any) => {
             console.log(result)
-            setDataPengukuranAsli(result[0]);
-            setDataBaseline1(result[1]);
-            setDataBaseline2(result[2]);
-            setDataPuncak1(result[3]);
-            setDataPuncak2(result[4]);
+            let graphData: GraphData = {
+              dataPengukuranAsli: result[0],
+              dataBaseline1: result[1],
+              dataBaseline2: result[2],
+              dataPuncak1: result[3],
+              dataPuncak2: result[4],
+              puncak1: result[3][0].y - result[3][1].y,
+              puncak2: result[4].length > 0 ? result[4][0].y - result[4][1].y : 0
+            }
             setIsCV(result[5]);
-            setPuncak1(result[3][0].y - result[3][1].y);
-            setPuncak2(result[4][0].y - result[4][1].y);
+            setDataGraph1(graphData);
           });
+          if (filePath2 !== "") {
+            await NivoChartAPI(filePath2).then((result: any) => {
+              let graphData: GraphData = {
+                dataPengukuranAsli: result[0],
+                dataBaseline1: result[1],
+                dataBaseline2: result[2],
+                dataPuncak1: result[3],
+                dataPuncak2: result[4],
+                puncak1: result[3][0].y - result[3][1].y,
+                puncak2: result[4].length > 0 ? result[4][0].y - result[4][1].y : 0
+              }
+              setDataGraph2(graphData);
+            });
+          }
         } 
     
         fetchData();
@@ -39,12 +79,12 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
         {
           "id": "sebelum correction",
           "color": "hsl(47, 70%, 50%)",
-          "data": dataPengukuranAsli
+          "data": dataGraph1?.dataPengukuranAsli
         },
         {
           "id": isCV ? "setelah correction oksidasi" : "setelah correction" ,
           "color": "hsl(187, 70%, 50%)",
-          "data": dataBaseline1
+          "data": dataGraph1?.dataBaseline1
         }
       ]
     
@@ -52,24 +92,39 @@ const GraphNivo: React.FC<GraphProps> = ({filePath}) => {
       data_graph.push({
         "id": "setelah correction reduksi",
         "color": "hsl(187, 70%, 50%)",
-        "data": dataBaseline2
+        "data": dataGraph1?.dataBaseline2
       })
       data_graph.push({
-        "id": "puncak oxidation (" + (puncak1).toString() + ")",
+        "id": "puncak oxidation (" + (dataGraph1?.puncak1).toString() + ")",
         "color": "hsl(187, 70%, 50%)",
-        "data": dataPuncak1
+        "data": dataGraph1?.dataPuncak1
       })
       data_graph.push({
-        "id": "puncak reduction (" + (puncak2).toString() + ")",
+        "id": "puncak reduction (" + (dataGraph1?.puncak2).toString() + ")",
         "color": "hsl(187, 70%, 50%)",
-        "data": dataPuncak2,
+        "data": dataGraph1?.dataPuncak2,
         
       })
     } else {
       data_graph.push({
-        "id": "puncak (" + (puncak1).toString() + ")",
+        "id": "puncak (" + (dataGraph1?.puncak1).toString() + ")",
         "color": "hsl(187, 70%, 50%)",
-        "data": dataPuncak1
+        "data": dataGraph1?.dataPuncak1
+      })
+      data_graph.push({
+        "id": "sebelum correction 2",
+        "color": "hsl(47, 70%, 50%)",
+        "data": dataGraph2?.dataPengukuranAsli
+      })
+      data_graph.push({
+        "id": "setelah correction 2",
+        "color": "hsl(187, 70%, 50%)",
+        "data": dataGraph2?.dataBaseline1
+      })
+      data_graph.push({
+        "id": "puncak (" + (dataGraph2?.puncak1).toString() + ")",
+        "color": "hsl(187, 70%, 50%)",
+        "data": dataGraph2?.dataPuncak1
       })
     }
     return(

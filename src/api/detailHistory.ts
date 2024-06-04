@@ -23,7 +23,8 @@ export const DetailHistoryAPI = async (jwt: string, id: string) => {
         createdAt:  new Date(data.config.created_at).toLocaleDateString('id-ID', {
           timeZone: 'Asia/Jakarta', // WIB timezone
         }),
-        filePath: data.analysis
+        filePath1: data.analysis_1,
+        filePath2: data.analysis_2
       }
       console.log(formattedData);
       return formattedData;

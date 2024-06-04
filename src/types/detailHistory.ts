@@ -6,5 +6,6 @@ export default interface DetailHistoryDataInterface {
     result: string;
     email: string;
     createdAt: string; 
-    filePath: string;
+    filePath1: string;
+    filePath2: string;
   }

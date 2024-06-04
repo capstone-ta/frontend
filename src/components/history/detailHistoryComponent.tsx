@@ -84,10 +84,10 @@ const DetailHistoryComponent:  React.FC = () => {
             </Tab.List>
 
             <Tab.Panels>
-                <Tab.Panel className="p-20"><Graph filePath={detailData ? detailData!.filePath : ""}/></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphChart2 filePath={detailData ?  detailData!.filePath : ""} /></Tab.Panel>
-                <Tab.Panel className="p-20"><GraphNivo filePath={detailData ?  detailData!.filePath : ""} /></Tab.Panel>
-                <Tab.Panel className="p-4"><Plotly filePath={detailData ?  detailData!.filePath : ""}></Plotly></Tab.Panel>
+                <Tab.Panel className="p-20"><Graph filePath1={detailData ?  detailData!.filePath1 : ""} filePath2={detailData ?  detailData!.filePath2 : ""}/></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphChart2 filePath1={detailData ?  detailData!.filePath1 : ""} filePath2={detailData ?  detailData!.filePath2 : ""} /></Tab.Panel>
+                <Tab.Panel className="p-20"><GraphNivo filePath1={detailData ?  detailData!.filePath1 : ""} filePath2={detailData ?  detailData!.filePath2 : ""} /></Tab.Panel>
+                <Tab.Panel className="p-4"><Plotly filePath1={detailData ?  detailData!.filePath1 : ""} filePath2={detailData ?  detailData!.filePath2 : ""}></Plotly></Tab.Panel>
             </Tab.Panels>
             </Tab.Group>
         </div>

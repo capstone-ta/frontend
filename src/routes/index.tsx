@@ -7,6 +7,7 @@ import UserConfiguration from '../pages/dashboard/userConfiguration';
 import Profile from '../pages/dashboard/profile';
 import History from '../pages/dashboard/history';
 import DetailHistory from '../pages/dashboard/detailHistory';
+import Statistics from '../pages/dashboard/statistics';
 import "../index.css"
 
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/dashboard/user-configuration" element={ <UserConfiguration/> } />
           <Route path="/dashboard/profile" element={ <Profile/> } />
           <Route path="/dashboard/history/:id" element={ <DetailHistory/> } />
+          <Route path="/dashboard/statistics" element={ <Statistics/> } />
         </Routes>
       </BrowserRouter>
     </div>
