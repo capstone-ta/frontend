@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScatterChart, Scatter, ZAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { StatisticsAPI } from '../../api/statistics';
 
 const StatisticsComponent:  React.FC<{ jwt: string }> = ({ jwt }) => {

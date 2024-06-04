@@ -1,5 +1,7 @@
 import { API_URL } from "../constant";
 
+type Point = { x: number; y: number };
+
 export const StatisticsAPI = async (jwt: string) => {
     const response = await fetch(API_URL + 'measurements', {
         headers: {
@@ -19,9 +21,9 @@ export const StatisticsAPI = async (jwt: string) => {
         let element = data[i];
         if(element.current_response === null) continue;
         if (element.result === true) {
-            formattedData.above.push({"x": 1, "y": element.current_response});
+            (formattedData.above as Point[]).push({ x: 1, y: element.current_response });
         } else {
-            formattedData.below.push({"x": 0, "y": element.current_response});
+            (formattedData.below as Point[]).push({ x: 0, y: element.current_response });
         }
     }
     return formattedData
