@@ -20,11 +20,13 @@ const Analysis = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className="flex overflow-hidden bg-white pt-16">
+            <div className="lg:hidden">
+                <Navbar clicked="pengujian" />
+            </div>
+            <div className="flex overflow-hidden bg-white pt-16 lg:pt-0">
             <Sidebar clicked="pengujian"/>
             <div className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10 h-screen" id="sidebarBackdrop"></div>
-                <div id="main-content" className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64 h-screen mb-10">
+                <div id="main-content" className="min-h-screen w-full bg-indigo-100 relative overflow-y-auto lg:ml-64">
                     <FileUploadComponent jwt={authProvider.getJwt()!}/>
                 </div>
             </div>

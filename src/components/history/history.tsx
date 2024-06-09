@@ -15,11 +15,11 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
         response = await HistoryAPI(jwt); 
       }
 
-
       const formattedData: HistoryDataInterface[] = response.map((obj: any) => ({
         id: obj.id,
         name: obj.user.name,
         result: obj.result,
+        method: obj.config.method,
         createdAt:  new Date(obj.config.created_at).toLocaleDateString('id-ID', {
           timeZone: 'Asia/Jakarta', // WIB timezone
         })
@@ -47,12 +47,11 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
   }
 
   return (
-    <div className="overflow-x-auto m-10">
-
-      <table className="min-w-full divide-y divide-gray-200">
+    <div className="overflow-x-auto m-10 bg-white rounded-lg p-5">
+        <table className="min-w-full divide-y divide-gray-200">
         {/* Table header */}
-        <caption className="text-lg font-medium text-gray-800 mb-4">Riwayat Pengujian</caption>
-        <thead className="bg-gray-50">
+        <caption className="text-lg font-medium text-black-500 mb-4">Riwayat Pengujian</caption>
+        <thead className="bg-white">
           <tr>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               ID
@@ -64,14 +63,17 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
               Username
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Test Result
+              Jenis Pengukuran
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Delete Data
+              Hasil Tes
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Hapus Data
             </th>
             {role && role != "USER" && (
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Link
+                Lihat Detail Data
               </th>
             )}
           </tr>
@@ -81,19 +83,22 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
           {historyData.map((historyItem) => 
           (
             <tr key={historyItem.id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.id}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.createdAt}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.name}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{historyItem.result && historyItem.result == "false" ? 'berpotensi RENDAH' : 'berpotensi TINGGI'}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button onClick={() => handleDeleteData(historyItem.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.id}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.createdAt}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.name}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.method}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.method === "CV" ? "Tidak ada" : ""}{historyItem.result && historyItem.result == "false" ? 'Berpotensi RENDAH' : 'Berpotensi TINGGI'}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">
+                <button onClick={() => handleDeleteData(historyItem.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                   Hapus
                 </button>
               </td>
               {role && role != "USER" && (
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <Link to={"/dashboard/history/" + historyItem.id} className="text-blue-500 hover:underline">
-                    View
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">
+                  <Link to={"/dashboard/history/" + historyItem.id} className="">
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                      Lihat Detail
+                    </button>
                   </Link>
                 </td>
               )}
@@ -101,6 +106,9 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
           ))}
         </tbody>
       </table>
+      {historyData.length === 0 && (
+            <h1 className="text-base text-center font-medium text-gray-500 mb-4">Tidak ada data yang ditemukan</h1>
+        )}
     </div>
   );
 };

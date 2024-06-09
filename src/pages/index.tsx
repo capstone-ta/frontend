@@ -9,7 +9,7 @@ const Home: React.FC = () => {
         </div>
         <div className="items-center hidden gap-8 md:flex">
           <button className="flex items-center text-sm font-normal text-gray-800 hover:text-gray-900 transition duration-300"><a href="/login">Masuk</a></button>
-          <button className="flex items-center px-4 py-2 text-sm font-bold rounded-xl bg-purple-blue-100 text-purple-blue-600 hover:bg-purple-blue-600 hover:text-white transition duration-300">
+          <button className="flex items-center px-4 py-2 text-sm font-bold rounded-xl bg-indigo-100 text-indigo-500 hover:bg-indigo-500 hover:text-white transition duration-300">
           <a href="/register">Daftar</a>
           </button>
         </div>
@@ -29,23 +29,17 @@ const Home: React.FC = () => {
             <img className="h-5" src="https://dti.itb.ac.id/wp-content/uploads/2020/09/logo_itb_1024.png" alt="logo" />
             <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">Institut Teknologi Bandung</h4>
           </div>
-          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900">Website Reader Sensor</h1>
-          <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-900">
+          <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-indigo-500">Website Reader Sensor</h1>
+          <p className="mb-6 text-base font-normal leading-7 lg:w-3/4 text-grey-500">
             Website untuk membantu deteksi dini penyakit jantung berbasis analisis data sensor.
           </p>
           <div className="items-center">
-            <a href="/login"><button className="items-center py-4 text-sm font-bold text-gray-100 px-7 bg-indigo-500  hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 rounded-xl"><a href="/login">Masuk</a></button></a>
+            <a href="/login"><button className="items-center py-4 text-sm font-bold text-indigo-500 px-7 bg-indigo-100  hover:bg-indigo-500 hover:text-white rounded-xl transition duration-300"><a href="/login">Masuk</a></button></a>
           </div>
         </div>
         <div className="items-center justify-end hidden col-span-1 md:flex">
-          <img className="w-4/5 rounded-md" src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/header-1.png" alt="header image" />
-        </div>
-      </div>
-      <div className="flex flex-wrap -mx-3 my-5">
-        <div className="w-full max-w-full sm:w-3/4 mx-auto text-center">
-          <p className="text-sm text-slate-500 py-1">
-            Made by <a href="https://www.itb.ac.id/" className="text-slate-700 hover:text-slate-900" target="_blank" rel="noopener noreferrer">ITB</a>.
-          </p>
+          {/* <img className="w-4/5 rounded-md" src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/header-1.png" alt="header image" /> */}
+          <img className="rounded-md" src="https://static.vecteezy.com/system/resources/previews/001/871/181/original/flat-illustration-of-health-services-and-providers-of-medicines-for-puskesmas-and-clinics-design-for-healthcare-can-be-used-for-landing-page-website-web-mobile-apps-posters-flyers-free-vector.jpg" alt="header image" />
         </div>
       </div>
     </div> 

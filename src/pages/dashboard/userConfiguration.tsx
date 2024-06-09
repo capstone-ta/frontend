@@ -21,11 +21,15 @@ const UserConfiguration = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className="flex overflow-hidden bg-white pt-16">
-            <Sidebar clicked="konfigurasi"/>
-            <div className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
-                <div id="main-content" className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
+            <div className="lg:hidden">
+                <Navbar clicked="konfigurasi" />
+            </div>
+            <div className="flex overflow-hidden bg-white pt-16 lg:pt-0">
+                <Sidebar clicked="konfigurasi"/>
+                <div className="hidden fixed inset-0 z-10" id="sidebarBackdrop">
+
+                </div>
+                <div id="main-content" className="min-h-screen bg-indigo-100 w-full relative overflow-y-auto lg:ml-64">
                     <UserConfigurationComponent jwt={authProvider.getJwt()!} />
                 </div>
             </div>

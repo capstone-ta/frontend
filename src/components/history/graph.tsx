@@ -66,8 +66,8 @@ const Graph: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1, fi
 
   return (
     <LineChart
-      width={1000}
-      height={600}
+      width={750}
+      height={375}
       margin={{top: 5, right: 30, left: 20, bottom: 5}}
     >
       <CartesianGrid strokeDasharray="3 3" />

@@ -18,24 +18,27 @@ const StatisticsComponent:  React.FC<{ jwt: string }> = ({ jwt }) => {
   }, []);
 
   return (
-    <ScatterChart
-        width={730}
-        height={250}
-        margin={{
-            top: 20,
-            right: 20,
-            bottom: 10,
-            left: 10,
-        }}
-        >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis allowDuplicatedCategory={false} dataKey="x" type="category" name="kategori" unit="" />
-        <YAxis dataKey="y" type="number" name="respon arus" unit="mA" />
-        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-        <Legend />
-        <Scatter name="Below Treshold" data={dataBelow} fill="#82ca9d" />
-        <Scatter name="Above Treshold" data={dataAbove} fill="#8884d8" />
-    </ScatterChart>
+    <div className="flex flex-col items-center justify-center mt-10 bg-white rounded-lg w-10/12 mx-auto p-6">
+      <h2 className="text-lg font-semibold mb-4 text-center">Statistik Pengukuran</h2>
+      <ScatterChart
+          width={730}
+          height={250}
+          margin={{
+              top: 20,
+              right: 20,
+              bottom: 10,
+              left: 10,
+          }}
+          >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis allowDuplicatedCategory={false} dataKey="x" type="category" name="kategori" unit="" />
+          <YAxis dataKey="y" type="number" name="respon arus" unit="mA" />
+          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+          <Legend />
+          <Scatter name="Below Treshold" data={dataBelow} fill="#82ca9d" />
+          <Scatter name="Above Treshold" data={dataAbove} fill="#8884d8" />
+      </ScatterChart>
+    </div>
   );
 };
 

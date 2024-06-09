@@ -20,11 +20,13 @@ const History = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className="flex overflow-hidden bg-white pt-16">
-            <Sidebar clicked="history"/>
+            <div className="lg:hidden">
+                <Navbar clicked="dashboard" />
+            </div>
+            <div className="flex overflow-hidden bg-white pt-16 lg:pt-0">
+            <Sidebar clicked="dashboard"/>
             <div className="opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
-                <div id="main-content" className="h-full w-full relative overflow-y-auto lg:ml-64">
+                <div id="main-content" className="min-h-screen bg-indigo-100 w-full relative overflow-y-auto lg:ml-64">
                     <TableHistory jwt={authProvider.getJwt()!} uuid={authProvider.getUUID()!} role={authProvider.getRole()!}/>
                 </div>
             </div>

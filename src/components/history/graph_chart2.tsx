@@ -77,7 +77,6 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
       }]
     }
   );
-  const [isCV, setIsCV] = useState<Boolean>(false);
   
     useEffect(() => {
         const fetchData = async () => {
@@ -104,7 +103,6 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
               puncak1: result[5][0][1] - result[5][1][1],
               puncak2: result[6].length > 0 ? result[6][0][1] - result[6][1][1] : 0
             }
-            setIsCV(result[7])
 
             data_graph_1 = {
               labels: graphData?.labels,
@@ -134,7 +132,7 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
             };  
             console.log("DATA GRAPH 1")
             console.log(data_graph_1)
-            if (isCV) {
+            if (result[7]) {
               data_graph_1 = {
                 labels: graphData?.labels,
                 datasets: [
@@ -182,8 +180,8 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
                   }
                 ],
               };  
+              setDataGraph1(data_graph_1);
             }
-            
            });
 
            
@@ -233,11 +231,7 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
       
       console.log(dataGraph1)
   return (
-    <div>
-      <div>
-        <Line data={dataGraph1} options={options} />
-      </div>
-    </div>
+    <Line data={dataGraph1} options={options} />
   )
 };
 

@@ -128,8 +128,8 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
       })
     }
     return(
-        <div className='h-96'>
           <ResponsiveLine
+            
             data={data_graph}
             margin={{ top: 50, right: 100, bottom: 50, left: 60 }}
             xScale={{ 
@@ -199,8 +199,6 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
             }
             ]}
           />
-          
-        </div>
     )
 }
 

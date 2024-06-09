@@ -30,19 +30,19 @@ const UserProfile: React.FC<UserProfileInterface> = ({ jwt, uuid }) => {
 
   return (
     <div className="flex items-center justify-center mt-10">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-9/12 h-9/12">
+      <div className="bg-white rounded-lg p-6 w-9/12 h-9/12">
         <h2 className="text-lg font-semibold mb-4 text-center">Profil Pengguna</h2>
         {isLoading && <p>Memuat data...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {!isLoading && !error && ( // Display profile data only if no errors or loading
+        {!isLoading && !error && ( 
           <>
             <div className="mb-4">
-              <label className="block text-l font-medium text-gray-700">Nama:</label>
-              <p className="text-l text-gray-900">{name}</p>
+              <label className="block text-l font-medium text-black-500">Nama:</label>
+              <p className="text-l text-gray-500">{name}</p>
             </div>
             <div>
-              <label className="block text-l font-medium text-gray-700">Email:</label>
-              <p className="text-l text-gray-900">{email}</p>
+              <label className="block text-l font-medium text-black-500">Email:</label>
+              <p className="text-l text-gray-500">{email}</p>
             </div>
           </>
         )}

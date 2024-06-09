@@ -15,11 +15,13 @@ export const DetailHistoryAPI = async (jwt: string, id: string) => {
         }
       
       const data = await response.json();
+      console.log(data)
       const formattedData: DetailHistoryDataInterface = {
         id: data.id,
-        name: data.user.name,
+        name: data.name,
         result: data.result,
-        email: data.user.email,
+        desc: data.description,
+        method: data.config.method,
         createdAt:  new Date(data.config.created_at).toLocaleDateString('id-ID', {
           timeZone: 'Asia/Jakarta', // WIB timezone
         }),

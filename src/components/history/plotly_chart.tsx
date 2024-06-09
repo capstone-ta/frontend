@@ -68,7 +68,6 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
 
 
   return (
-    <div>
       <Plot
         data={[
           {
@@ -195,11 +194,10 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
           yaxis: {
             title: "µA",
           },
-          width: 1500,
-          height: 750
+          width: 750,
+          height: 375
         }}
       />
-    </div>
   );
 };
 

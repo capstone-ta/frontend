@@ -11,4 +11,5 @@ export default interface HistoryDataInterface {
     name: string;
     result: string;
     createdAt: string; 
+    method: string;
   }

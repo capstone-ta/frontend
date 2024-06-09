@@ -40,11 +40,10 @@ const UserConfigurationComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
   }
 
   return (
-    <div className="overflow-x-auto m-10">
-
+    <div className="overflow-x-auto m-10 bg-white rounded-lg p-5">
       <table className="min-w-full divide-y divide-gray-200">
-        <caption className="text-lg font-medium text-gray-800 mb-4">Daftar Pengguna</caption>
-        <thead className="bg-gray-50">
+        <caption className="text-lg font-medium text-black-500 mb-4">Daftar Pengguna</caption>
+        <thead className="bg-white">
           <tr>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Email
@@ -60,19 +59,19 @@ const UserConfigurationComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
             </th>
           </tr>
         </thead>
-        {/* Table body */}
+  
         <tbody className="bg-white divide-y divide-gray-200">
           {userData.map((userItem) => 
           (
             <tr key={userItem.id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userItem.email}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userItem.username}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{userItem.role}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{userItem.email}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{userItem.username}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{userItem.role}</td>
               {userItem.role && userItem.role != "ADMIN" ? <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button onClick={() => handleRoleChange(userItem.id, userItem.role)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                <button onClick={() => handleRoleChange(userItem.id, userItem.role)} className="bg-indigo-500 hover:bg-indigo-700 text-gray-100 font-bold py-1 px-2 rounded-full">
                     {userItem.role && userItem.role == "LABORAN" ? 'Ubah ke user biasa' : 'Ubah ke laboran'}
                 </button>
-                </td> : <></>}
+                </td> : <td></td>}
             </tr>
           ))}
         </tbody>
