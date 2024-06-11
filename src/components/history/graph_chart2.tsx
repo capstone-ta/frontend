@@ -108,21 +108,21 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
               labels: graphData?.labels,
               datasets: [
                 {
-                  label: 'Sebelum Correction',
+                  label: 'Sebelum Correction Benchmark',
                   data: graphData?.dataPengukuranAsliOxidation,
                   borderColor: 'rgb(102, 252, 3)',
                   backgroundColor: 'rgba(102, 252, 3, 0.5)',
                   pointRadius: 0
                 },
                 {
-                  label: 'Setelah Correction',
+                  label: 'Setelah Correction Benchmark',
                   data: graphData?.dataBaseline1,
                   borderColor: 'rgb(102, 252, 3)',
                   backgroundColor: 'rgba(102, 252, 3, 0.5)',
                   pointRadius: 0
                 },
                 {
-                  label: 'Puncak (' + (graphData?.puncak1).toString() + ')',
+                  label: 'Puncak (' + (graphData?.puncak1).toString() + ') Benchmark',
                   data: graphData?.dataPuncak1,
                   borderColor: 'rgb(82, 3, 252)',
                   backgroundColor: 'rgba(82, 3, 252, 0.5)',
@@ -199,21 +199,21 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
                 puncak2: result[6].length > 0 ? parseFloat((result[6][0][1] - result[6][1][1]).toFixed(2)) : 0
               }
               data_graph_1.datasets.push({
-                label: 'Sebelum Correction',
+                label: 'Sebelum Correction Sampel',
                     data: graphData?.dataPengukuranAsliOxidation,
                     borderColor: 'rgb(252, 3, 78)',
                     backgroundColor: 'rgba(252, 3, 78, 0.5)',
                     pointRadius: 0
               })
               data_graph_1.datasets.push({
-                label: 'Setelah Correction',
+                label: 'Setelah Correction Sampel',
                     data: graphData?.dataBaseline1,
                     borderColor: 'rgb(252, 3, 78)',
                     backgroundColor: 'rgba(252, 3, 78, 0.5)',
                     pointRadius: 0
               })
               data_graph_1.datasets.push({
-                label: 'Puncak (' + (graphData?.puncak1).toString() + ')',
+                label: 'Puncak (' + (graphData?.puncak1).toString() + ') Sampel',
                     data: graphData?.dataPuncak1,
                     borderColor: 'rgb(82, 3, 252)',
                     backgroundColor: 'rgba(82, 3, 252, 0.5)',

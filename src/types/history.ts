@@ -8,6 +8,7 @@ export default interface HistoryInterface {
   
 export default interface HistoryDataInterface {
     id: number;
+    username: string;
     name: string;
     result: string;
     createdAt: string; 

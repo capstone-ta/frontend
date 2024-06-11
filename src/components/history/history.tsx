@@ -17,8 +17,9 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
 
       const formattedData: HistoryDataInterface[] = response.map((obj: any) => ({
         id: obj.id,
-        name: obj.user.name,
+        username: obj.user.name,
         result: obj.result,
+        name: obj.name,
         method: obj.config.method,
         createdAt:  new Date(obj.config.created_at).toLocaleDateString('id-ID', {
           timeZone: 'Asia/Jakarta', // WIB timezone
@@ -63,6 +64,9 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
               Username
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Nama
+            </th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Jenis Pengukuran
             </th>
             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -85,9 +89,10 @@ const TableHistory: React.FC<{ jwt: string; uuid: string; role: string }> = ({ j
             <tr key={historyItem.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.id}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.createdAt}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.username}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.name}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.method}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.method === "CV" ? "Tidak ada" : ""}{historyItem.result && historyItem.result == "false" ? 'Berpotensi RENDAH' : 'Berpotensi TINGGI'}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">{historyItem.method === "CV" ? "Tidak ada" : historyItem.result && historyItem.method != "CV" && historyItem.result == "false" ? 'Berpotensi RENDAH' : 'Berpotensi TINGGI'}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-black-500">
                 <button onClick={() => handleDeleteData(historyItem.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                   Hapus

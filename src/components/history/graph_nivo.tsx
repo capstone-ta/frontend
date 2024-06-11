@@ -77,12 +77,12 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
       }, []);
     let data_graph = [
         {
-          "id": "sebelum correction",
+          "id": isCV ? "sebelum correction" : "sebelum correction benchmark",
           "color": "hsl(187, 70%, 50%)",
           "data": dataGraph1?.dataPengukuranAsli
         },
         {
-          "id": isCV ? "setelah correction oksidasi" : "setelah correction" ,
+          "id": isCV ? "setelah correction oksidasi" : "setelah correction benchmark" ,
           "color": "hsl(187, 70%, 50%)",
           "data": dataGraph1?.dataBaseline1
         }
@@ -107,22 +107,22 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
       })
     } else {
       data_graph.push({
-        "id": "puncak (" + (dataGraph1?.puncak1).toString() + ")",
+        "id": "puncak (" + (dataGraph1?.puncak1).toString() + ") benchmark",
         "color": "hsl(47, 70%, 50%)",
         "data": dataGraph1?.dataPuncak1
       })
       data_graph.push({
-        "id": "sebelum correction 2",
+        "id": "sebelum correction sampel",
         "color": "hsl(47, 70%, 50%)",
         "data": dataGraph2?.dataPengukuranAsli
       })
       data_graph.push({
-        "id": "setelah correction 2",
+        "id": "setelah correction sampel",
         "color": "hsl(47, 70%, 50%)",
         "data": dataGraph2?.dataBaseline1
       })
       data_graph.push({
-        "id": "puncak (" + (dataGraph2?.puncak1).toString() + ")",
+        "id": "puncak (" + (dataGraph2?.puncak1).toString() + ") sampel",
         "color": "hsl(187, 70%, 50%)",
         "data": dataGraph2?.dataPuncak1
       })

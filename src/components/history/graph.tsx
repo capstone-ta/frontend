@@ -72,16 +72,16 @@ const Graph: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1, fi
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis label={{ value: 'V', position: 'insideBottom', offset: -5 }} type="number" dataKey="x" domain={['dataMin', 'dataMax']}/>
-      <YAxis label={{ value: 'µA', angle: -90, position: 'insideLeft' }} />
+      <YAxis label={{ value: 'µA', angle: -90, position: 'insideLeft' }} domain={['dataMin', 'dataMax']} />
       <Tooltip />
       <Legend verticalAlign="top" align="right" />
-      <Line name="pengukuran" data={dataGraph1?.dataPengukuranAsli} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} dot={false}/>
-      <Line name={isCV ? "baseline correction - oksidasi" : "baseline correction"} data={dataGraph1?.dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} />
+      <Line name={isCV ? "pengukuran" : "benchmark"} data={dataGraph1?.dataPengukuranAsli} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} dot={false}/>
+      <Line name={isCV ? "baseline correction - oksidasi" : "baseline correction benchmark"} data={dataGraph1?.dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} />
       {isCV ? <Line name="baseline correction - reduksi" data={dataGraph1?.dataBaseline2} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} /> : null}
       <ReferenceLine label={dataGraph1?.puncak1} stroke="green" strokeDasharray="3 3" segment={dataGraph1?.dataPuncak1} />
       {isCV ? <ReferenceLine label={dataGraph1?.dataPuncak2[0].y - dataGraph1?.dataPuncak2[1].y} stroke="green" strokeDasharray="3 3" segment={dataGraph1?.dataPuncak2} /> : null}
-      {isCV ? null : <Line name="pengukuran" data={dataGraph2?.dataPengukuranAsli} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} dot={false}/>}
-      {isCV ? null : <Line name="baseline correction" data={dataGraph2?.dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} />}
+      {isCV ? null : <Line name="sampel" data={dataGraph2?.dataPengukuranAsli} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} dot={false}/>}
+      {isCV ? null : <Line name="baseline correction sampel" data={dataGraph2?.dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} />}
       {isCV ? null : <ReferenceLine label={dataGraph2?.puncak1} stroke="green" strokeDasharray="3 3" segment={dataGraph2?.dataPuncak1} />}
     </LineChart>
   );

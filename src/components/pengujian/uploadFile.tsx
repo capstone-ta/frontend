@@ -144,7 +144,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
               ></path>
             </svg>
             <p className="mb-2 text-sm text-gray-500">
-              {}<span className="font-semibold">Klik untuk unggah</span> atau tarik file
+              {}<span className="font-semibold">Klik untuk unggah</span> file benchmark
             </p>
             <p className="text-xs text-gray-500">CSV</p>
             {file1 && <p className="mt-2 text-sm text-gray-500">{file1.name}</p>}
@@ -180,7 +180,7 @@ const FileUploadComponent: React.FC<{ jwt: string }> = ({ jwt }) => {
               ></path>
             </svg>
             <p className="mb-2 text-sm text-gray-500">
-              {}<span className="font-semibold">Klik untuk unggah</span> atau tarik file
+              {}<span className="font-semibold">Klik untuk unggah</span> file sampel
             </p>
             <p className="text-xs text-gray-500">CSV</p>
             {file2 && <p className="mt-2 text-sm text-gray-500">{file2.name}</p>}

@@ -59,6 +59,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             puncak1: parseFloat((result[3][1][0] - result[3][1][1]).toFixed(2)),
             puncak2: result[4].length > 0 ? parseFloat((result[4][1][0] - result[4][1][1]).toFixed(2)) : 0
           }
+          console.log(graphData)
           setDataGraph2(graphData);
         });
       }
@@ -75,7 +76,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: dataGraph1?.dataPengukuranAsli[0], // Wrap the number in an array
             y: dataGraph1?.dataPengukuranAsli[1], // Wrap the number in an array
             mode: 'lines',
-            name: 'Pengukuran asli',
+            name: isCV ? 'Pengukuran asli' : 'Pengukuran asli benchmark',
             line: {
               color: 'rgb(219, 64, 82)',
               width: 3
@@ -86,7 +87,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: dataGraph1?.dataBaseline1[0], // Wrap the number in an array
             y: dataGraph1?.dataBaseline1[1], // Wrap the number in an array
             mode: 'lines',
-            name: isCV ? "Baseline correction - oksidasi" : "Baseline correction",
+            name: isCV ? "Baseline correction - oksidasi" : "Baseline correction benchmark",
             line: {
               color: 'rgb(219, 64, 82)',
               width: 2
@@ -108,7 +109,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: dataGraph1?.dataPuncak1[0], // Wrap the number in an array
             y: dataGraph1?.dataPuncak1[1], // Wrap the number in an array
             mode: 'lines',
-            name: isCV ? "Puncak - oksidasi" : "Puncak",
+            name: isCV ? "Puncak - oksidasi" : "Puncak benchmark",
             line: {
               dash: 'dashdot',
               color: 'rgb(128, 0, 128)',
@@ -132,6 +133,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: [dataGraph1?.dataPuncak1[0][0]], // Wrap the number in an array
             y: [dataGraph1?.dataPuncak1[1][0] / 2], // Wrap the number in an array
             mode: 'text',
+            name: "Puncak - oksidasi",
             text: dataGraph1?.puncak1.toString(),
             line: {
               dash: 'dashdot',
@@ -144,6 +146,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: [dataGraph1?.dataPuncak2[0][0]], // Wrap the number in an array
             y: [dataGraph1?.dataPuncak2[1][0] / 2], // Wrap the number in an array
             mode: 'text',
+            name: "Puncak - reduksi",
             text: dataGraph1?.puncak2.toString(),
             line: {
               dash: 'dashdot',
@@ -156,7 +159,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: dataGraph2?.dataPengukuranAsli[0], // Wrap the number in an array
             y: dataGraph2?.dataPengukuranAsli[1], // Wrap the number in an array
             mode: 'lines',
-            name: 'Pengukuran asli',
+            name: 'Pengukuran sampel',
             line: {
               color: 'rgb(55, 128, 191)',
               width: 3
@@ -167,7 +170,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: dataGraph2?.dataBaseline1[0], // Wrap the number in an array
             y: dataGraph2?.dataBaseline1[1], // Wrap the number in an array
             mode: 'lines',
-            name: "Baseline correction",
+            name: "Baseline correction sampel",
             line: {
               color: 'rgb(55, 128, 191)',
               width: 2
@@ -178,7 +181,33 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: dataGraph2?.dataPuncak1[0], // Wrap the number in an array
             y: dataGraph2?.dataPuncak1[1], // Wrap the number in an array
             mode: 'lines',
-            name: "Puncak",
+            name: "Puncak sampel",
+            line: {
+              dash: 'dashdot',
+              color: 'rgb(128, 0, 128)',
+              width: 1
+            }
+          } : {},
+          !isCV ? {
+            type: 'scatter',
+            x: [dataGraph2?.dataPuncak1[0][0]], // Wrap the number in an array
+            y: [dataGraph2?.dataPuncak1[1][0] / 2], // Wrap the number in an array
+            mode: 'text',
+            name: "Puncak sampel",
+            text: dataGraph2?.puncak1.toString(),
+            line: {
+              dash: 'dashdot',
+              color: 'rgb(128, 0, 128)',
+              width: 1
+            }
+          } : {},
+          !isCV ? {
+            type: 'scatter',
+            x: [dataGraph1?.dataPuncak1[0][0]], // Wrap the number in an array
+            y: [dataGraph1?.dataPuncak1[1][0] / 1.5], // Wrap the number in an array
+            mode: 'text',
+            name: "Puncak benchmark",
+            text: dataGraph2?.puncak1.toString(),
             line: {
               dash: 'dashdot',
               color: 'rgb(128, 0, 128)',
