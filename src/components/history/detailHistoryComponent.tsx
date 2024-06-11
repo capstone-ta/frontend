@@ -15,9 +15,11 @@ const DetailHistoryComponent:  React.FC = () => {
     const navigate = useNavigate();
     const authProvider = AuthProvider()
     const [detailData, setDetailData] = useState<DetailHistoryDataInterface | null>(null);
+    const [loading, setLoading] = useState(true);
     const { id } = useParams(); 
 
     useEffect(() => {
+        setLoading(true);
       authProvider.checkCredential().then((role) => {
           if (role === null) {
               navigate('/login');
@@ -36,13 +38,18 @@ const DetailHistoryComponent:  React.FC = () => {
                 navigate('/dashboard/');
               }
               setDetailData(response);
-              console.log(response)
             } catch (error) {
               console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
             }
           };
           fetchData();
       }, []);
+
+      if (loading) {
+        return <div></div>;
+      }
 
     return (
         <div className="flex flex-col h-screen">

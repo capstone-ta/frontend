@@ -42,12 +42,13 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
           dataBaseline2: result[2],
           dataPuncak1: result[3],
           dataPuncak2: result[4],
-          puncak1: parseFloat((result[3][1][0] - result[3][1][1]).toFixed(2)),
+          puncak1: result[3].length > 0 ? parseFloat((result[3][1][0] - result[3][1][1]).toFixed(2)) : 0,
           puncak2: result[4].length > 0 ? parseFloat((result[4][1][0] - result[4][1][1]).toFixed(2)) : 0
         }
         setDataGraph1(graphData);
         setIsCV(result[5]);
       })
+      console.log("MARK")
       if (filePath2 !== "") {
         await PlotlyChartAPI(filePath2).then((result: any) => {
           let graphData: GraphData = {
@@ -56,7 +57,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             dataBaseline2: result[2],
             dataPuncak1: result[3],
             dataPuncak2: result[4],
-            puncak1: parseFloat((result[3][1][0] - result[3][1][1]).toFixed(2)),
+            puncak1: result[3].length > 0 ? parseFloat((result[3][1][0] - result[3][1][1]).toFixed(2)) : 0,
             puncak2: result[4].length > 0 ? parseFloat((result[4][1][0] - result[4][1][1]).toFixed(2)) : 0
           }
           console.log(graphData)
@@ -76,7 +77,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             x: dataGraph1?.dataPengukuranAsli[0], // Wrap the number in an array
             y: dataGraph1?.dataPengukuranAsli[1], // Wrap the number in an array
             mode: 'lines',
-            name: isCV ? 'Pengukuran asli' : 'Pengukuran asli benchmark',
+            name: isCV ? 'Pengukuran asli' : 'Pengukuran benchmark',
             line: {
               color: 'rgb(219, 64, 82)',
               width: 3
@@ -190,10 +191,10 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
           } : {},
           !isCV ? {
             type: 'scatter',
-            x: [dataGraph2?.dataPuncak1[0][0]], // Wrap the number in an array
-            y: [dataGraph2?.dataPuncak1[1][0] / 2], // Wrap the number in an array
+            x: dataGraph1?.dataPuncak1.length > 0 ? [dataGraph1?.dataPuncak1[0][0]] : [0], // Wrap the number in an array
+            y: dataGraph1?.dataPuncak1.length > 0 ? [dataGraph1?.dataPuncak1[1][0] / 1.5] : [0], // Wrap the number in an array
             mode: 'text',
-            name: "Puncak sampel",
+            name: "Puncak benchmark",
             text: dataGraph2?.puncak1.toString(),
             line: {
               dash: 'dashdot',
@@ -203,10 +204,10 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
           } : {},
           !isCV ? {
             type: 'scatter',
-            x: [dataGraph1?.dataPuncak1[0][0]], // Wrap the number in an array
-            y: [dataGraph1?.dataPuncak1[1][0] / 1.5], // Wrap the number in an array
+            x: dataGraph2?.dataPuncak1.length > 0 ? [dataGraph2?.dataPuncak1[0][0]] : [0], // Wrap the number in an array
+            y: dataGraph2?.dataPuncak1.length > 0 ? [dataGraph2?.dataPuncak1[1][0] / 2] : [0], // Wrap the number in an array
             mode: 'text',
-            name: "Puncak benchmark",
+            name: "Puncak sampel",
             text: dataGraph2?.puncak1.toString(),
             line: {
               dash: 'dashdot',
