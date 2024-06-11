@@ -32,7 +32,7 @@ const StatisticsComponent:  React.FC<{ jwt: string }> = ({ jwt }) => {
           >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis allowDuplicatedCategory={false} dataKey="x" type="category" name="kategori" unit="" />
-          <YAxis dataKey="y" type="number" name="respon arus" unit="mA" />
+          <YAxis dataKey="y" type="number" name="respon arus" unit="µA" />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} />
           <Legend />
           <Scatter name="Below Treshold" data={dataBelow} fill="#82ca9d" />
