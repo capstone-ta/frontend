@@ -11,6 +11,7 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [messageToastWarning, setMessageToastWarning] = useState("");
   const [messageToastSuccess, setMessageToastSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const { setRole } = useContext(RoleContext);
 
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Login = () => {
 
   const onSubmit = async (data: any) => {
     try {
+      setLoading(true);
       const response = await LoginAPI(data);
       setMessageToastSuccess("Login Sukses");
       authProvider.setJwt(response.access_token)
@@ -32,6 +34,8 @@ const Login = () => {
         setTimeout(() => {
           setMessageToastWarning("");
         }, 2000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +60,7 @@ const Login = () => {
                     <circle cx="8.5" cy="7" r="4" />
                     <path d="M20 8v6M23 11h-6" />
                   </svg>
-                  <span className="ml-3">Masuk</span>
+                  <span className="ml-3">{loading ? "loading..." : "Masuk"}</span>
                 </button>
                 <p className="mt-6 text-xs text-gray-600 text-center">
                   Belum punya akun? Daftar <a href="/register" className="border-b border-gray-500 border-dotted">

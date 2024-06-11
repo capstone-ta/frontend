@@ -9,11 +9,13 @@ const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [messageToastWarning, setMessageToastWarning] = useState("");
   const [messageToastSuccess, setMessageToastSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
     try {
+      setLoading(true);
       await RegisterAPI(data);
       setMessageToastSuccess("Pendaftaran Sukses");
       setTimeout(() => {
@@ -26,6 +28,8 @@ const Register = () => {
         setTimeout(() => {
           setMessageToastWarning("");
         }, 2000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,7 +57,7 @@ const Register = () => {
                     <circle cx="8.5" cy="7" r="4" />
                     <path d="M20 8v6M23 11h-6" />
                   </svg>
-                  <span className="ml-3">Daftar</span>
+                  <span className="ml-3">{loading ? "loading..." : "Daftar"}</span>
                 </button>
                 <p className="mt-6 text-xs text-gray-600 text-center">
                   Dengan mendaftar, saya setuju dengan ketentuan dan kebijakan privasi yang berlaku.
