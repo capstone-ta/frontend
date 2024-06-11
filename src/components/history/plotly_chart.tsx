@@ -195,7 +195,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             y: dataGraph1?.dataPuncak1.length > 0 ? [dataGraph1?.dataPuncak1[1][0] / 1.5] : [0], // Wrap the number in an array
             mode: 'text',
             name: "Puncak benchmark",
-            text: dataGraph2?.puncak1.toString(),
+            text: dataGraph1?.puncak1.toString(),
             line: {
               dash: 'dashdot',
               color: 'rgb(128, 0, 128)',
