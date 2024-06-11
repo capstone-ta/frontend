@@ -9,7 +9,6 @@ const StatisticsComponent:  React.FC<{ jwt: string }> = ({ jwt }) => {
   useEffect(() => {
     const fetchData = async () => {
         await StatisticsAPI(jwt).then((result: any) => {
-            console.log(result)
             setDataAbove(result.above);
             setDataBelow(result.below);
         });
@@ -35,8 +34,8 @@ const StatisticsComponent:  React.FC<{ jwt: string }> = ({ jwt }) => {
           <YAxis dataKey="y" type="number" name="respon arus" unit="µA" />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} />
           <Legend />
-          <Scatter name="Below Treshold" data={dataBelow} fill="#82ca9d" />
-          <Scatter name="Above Treshold" data={dataAbove} fill="#8884d8" />
+          <Scatter name="< 50" data={dataBelow} fill="#82ca9d" />
+          <Scatter name="> 50" data={dataAbove} fill="#8884d8" />
       </ScatterChart>
     </div>
   );
