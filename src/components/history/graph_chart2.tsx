@@ -100,8 +100,8 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
               dataBaseline2: result[4],
               dataPuncak1: result[5],
               dataPuncak2: result[6],
-              puncak1: result[5][0][1] - result[5][1][1],
-              puncak2: result[6].length > 0 ? result[6][0][1] - result[6][1][1] : 0
+              puncak1: parseFloat((result[5][0][1] - result[5][1][1]).toFixed(2)),
+              puncak2: result[6].length > 0 ? parseFloat((result[6][0][1] - result[6][1][1]).toFixed(2)) : 0
             }
 
             data_graph_1 = {
@@ -195,8 +195,8 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
                 dataBaseline2: result[4],
                 dataPuncak1: result[5],
                 dataPuncak2: result[6],
-                puncak1: result[5][0][1] - result[5][1][1],
-                puncak2: result[6].length > 0 ? result[6][0][1] - result[6][1][1] : 0
+                puncak1: parseFloat((result[5][0][1] - result[5][1][1]).toFixed(2)),
+                puncak2: result[6].length > 0 ? parseFloat((result[6][0][1] - result[6][1][1]).toFixed(2)) : 0
               }
               data_graph_1.datasets.push({
                 label: 'Sebelum Correction',
@@ -219,8 +219,6 @@ const GraphChart2: React.FC<GraphProps> = ({filePath1, filePath2}) => {
                     backgroundColor: 'rgba(82, 3, 252, 0.5)',
                     pointRadius: 0
               })
-              console.log("MARK")
-              console.log(data_graph_1)
               setDataGraph1(data_graph_1);
             });
            }

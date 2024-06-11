@@ -51,8 +51,8 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
               dataBaseline2: result[2],
               dataPuncak1: result[3],
               dataPuncak2: result[4],
-              puncak1: result[3][0].y - result[3][1].y,
-              puncak2: result[4].length > 0 ? result[4][0].y - result[4][1].y : 0
+              puncak1: parseFloat((result[3][0].y - result[3][1].y).toFixed(2)),
+              puncak2: result[4].length > 0 ? parseFloat((result[4][0].y - result[4][1].y).toFixed(2)) : 0
             }
             setIsCV(result[5]);
             setDataGraph1(graphData);
@@ -65,8 +65,8 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
                 dataBaseline2: result[2],
                 dataPuncak1: result[3],
                 dataPuncak2: result[4],
-                puncak1: result[3][0].y - result[3][1].y,
-                puncak2: result[4].length > 0 ? result[4][0].y - result[4][1].y : 0
+                puncak1: parseFloat((result[3][0].y - result[3][1].y).toFixed(2)),
+                puncak2: result[4].length > 0 ? parseFloat((result[4][0].y - result[4][1].y).toFixed(2)) : 0
               }
               setDataGraph2(graphData);
             });
@@ -78,7 +78,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
     let data_graph = [
         {
           "id": "sebelum correction",
-          "color": "hsl(47, 70%, 50%)",
+          "color": "hsl(187, 70%, 50%)",
           "data": dataGraph1?.dataPengukuranAsli
         },
         {
@@ -108,7 +108,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
     } else {
       data_graph.push({
         "id": "puncak (" + (dataGraph1?.puncak1).toString() + ")",
-        "color": "hsl(187, 70%, 50%)",
+        "color": "hsl(47, 70%, 50%)",
         "data": dataGraph1?.dataPuncak1
       })
       data_graph.push({
@@ -118,7 +118,7 @@ const GraphNivo: React.FC<GraphProps> = ({filePath1, filePath2}) => {
       })
       data_graph.push({
         "id": "setelah correction 2",
-        "color": "hsl(187, 70%, 50%)",
+        "color": "hsl(47, 70%, 50%)",
         "data": dataGraph2?.dataBaseline1
       })
       data_graph.push({

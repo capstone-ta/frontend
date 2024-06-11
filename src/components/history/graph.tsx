@@ -40,7 +40,7 @@ const Graph: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1, fi
           dataBaseline2: result[2],
           dataPuncak1: result[3],
           dataPuncak2: result[4],
-          puncak1: result[3][0].y - result[3][1].y,
+          puncak1:  parseFloat((result[3][0].y - result[3][1].y).toFixed(2)),
         }
         setIsCV(result[5]);
         setDataGraph1(graphData);
@@ -53,7 +53,7 @@ const Graph: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1, fi
             dataBaseline2: result[2],
             dataPuncak1: result[3],
             dataPuncak2: result[4],
-            puncak1: result[3][0].y - result[3][1].y,
+            puncak1: parseFloat((result[3][0].y - result[3][1].y).toFixed(2)),
           }
           setDataGraph2(graphData);
         });
@@ -75,13 +75,13 @@ const Graph: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1, fi
       <YAxis label={{ value: 'µA', angle: -90, position: 'insideLeft' }} />
       <Tooltip />
       <Legend verticalAlign="top" align="right" />
-      <Line name="pengukuran" data={dataGraph1?.dataPengukuranAsli} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} dot={false}/>
+      <Line name="pengukuran" data={dataGraph1?.dataPengukuranAsli} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} dot={false}/>
       <Line name={isCV ? "baseline correction - oksidasi" : "baseline correction"} data={dataGraph1?.dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} />
       {isCV ? <Line name="baseline correction - reduksi" data={dataGraph1?.dataBaseline2} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} /> : null}
       <ReferenceLine label={dataGraph1?.puncak1} stroke="green" strokeDasharray="3 3" segment={dataGraph1?.dataPuncak1} />
       {isCV ? <ReferenceLine label={dataGraph1?.dataPuncak2[0].y - dataGraph1?.dataPuncak2[1].y} stroke="green" strokeDasharray="3 3" segment={dataGraph1?.dataPuncak2} /> : null}
       {isCV ? null : <Line name="pengukuran" data={dataGraph2?.dataPengukuranAsli} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} dot={false}/>}
-      {isCV ? null : <Line name="baseline correction" data={dataGraph2?.dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#a83232" activeDot={{r: 4}} />}
+      {isCV ? null : <Line name="baseline correction" data={dataGraph2?.dataBaseline1} dot={false} type="monotone" dataKey="y" stroke="#8884d8" activeDot={{r: 4}} />}
       {isCV ? null : <ReferenceLine label={dataGraph2?.puncak1} stroke="green" strokeDasharray="3 3" segment={dataGraph2?.dataPuncak1} />}
     </LineChart>
   );

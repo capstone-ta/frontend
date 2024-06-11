@@ -42,8 +42,8 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
           dataBaseline2: result[2],
           dataPuncak1: result[3],
           dataPuncak2: result[4],
-          puncak1: result[3][1][0] - result[3][1][1],
-          puncak2: result[4].length > 0 ? result[4][1][0] - result[4][1][1] : 0
+          puncak1: parseFloat((result[3][1][0] - result[3][1][1]).toFixed(2)),
+          puncak2: result[4].length > 0 ? parseFloat((result[4][1][0] - result[4][1][1]).toFixed(2)) : 0
         }
         setDataGraph1(graphData);
         setIsCV(result[5]);
@@ -56,8 +56,8 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             dataBaseline2: result[2],
             dataPuncak1: result[3],
             dataPuncak2: result[4],
-            puncak1: result[3][1][0] - result[3][1][1],
-            puncak2: result[4].length > 0 ? result[4][1][0] - result[4][1][1] : 0
+            puncak1: parseFloat((result[3][1][0] - result[3][1][1]).toFixed(2)),
+            puncak2: result[4].length > 0 ? parseFloat((result[4][1][0] - result[4][1][1]).toFixed(2)) : 0
           }
           setDataGraph2(graphData);
         });
@@ -77,7 +77,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             mode: 'lines',
             name: 'Pengukuran asli',
             line: {
-              color: 'rgb(55, 128, 191)',
+              color: 'rgb(219, 64, 82)',
               width: 3
             }
           },
@@ -169,7 +169,7 @@ const Plotly: React.FC<{filePath1: string, filePath2: string}> = ({ filePath1,  
             mode: 'lines',
             name: "Baseline correction",
             line: {
-              color: 'rgb(219, 64, 82)',
+              color: 'rgb(55, 128, 191)',
               width: 2
             }
           } : {},
